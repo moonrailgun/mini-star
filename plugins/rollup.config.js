@@ -17,7 +17,7 @@ function replaceId() {
           p2
         ) {
           console.log(p1);
-          return `define('${p2}/${x.fileName}',)`;
+          return `define('${p2}/${x.fileName}',`;
         });
       });
     },
