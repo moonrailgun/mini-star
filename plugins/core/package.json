@@ -1,0 +1,7 @@
+{
+  "name": "core",
+  "main": "index.ts",
+  "scripts": {
+    "build": "rollup --config ../rollup.config.js"
+  }
+}
