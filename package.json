@@ -14,6 +14,8 @@
   "author": "moonrailgun",
   "license": "MIT",
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^11.1.0",
+    "@rollup/plugin-node-resolve": "^7.1.3",
     "@rollup/plugin-typescript": "^4.1.1",
     "html-webpack-plugin": "^4.3.0",
     "lerna": "^3.20.2",

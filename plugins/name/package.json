@@ -1,0 +1,10 @@
+{
+  "name": "name",
+  "main": "index.ts",
+  "scripts": {
+    "build": "rollup --config ../rollup.config.js"
+  },
+  "dependencies": {
+    "pokemon": "^2.0.2"
+  }
+}

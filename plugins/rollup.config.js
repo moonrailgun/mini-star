@@ -1,5 +1,7 @@
 import path from 'path';
+import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
+import commonjs from '@rollup/plugin-commonjs';
 
 const name = process.env.npm_package_name;
 const main = process.env.npm_package_main;
@@ -16,7 +18,6 @@ function replaceId() {
           p1,
           p2
         ) {
-          console.log(p1);
           return `define('${p2}/${x.fileName}',`;
         });
       });
@@ -34,5 +35,5 @@ export default {
     },
     sourcemap: true,
   },
-  plugins: [typescript(), replaceId()],
+  plugins: [typescript(), resolve({ browser: true }), commonjs(), replaceId()],
 };
