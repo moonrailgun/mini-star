@@ -2,6 +2,8 @@ import inquirer from 'inquirer';
 import path from 'path';
 import fs from 'fs';
 
+import ptconfig from '../.ptconfig.json';
+
 const pluginDir = path.resolve(__dirname, '../plugins');
 
 async function run() {
@@ -48,12 +50,15 @@ async function run() {
 
   const entryFileName = `index.${language}`;
 
+  const prefix = `@${ptconfig.scope}/`;
+  const uniqPluginName = prefix + pluginName;
+
   fs.mkdirSync(path.resolve(pluginDir, pluginName));
   fs.writeFileSync(
     path.resolve(pluginDir, pluginName, 'package.json'),
     JSON.stringify(
       {
-        name: pluginName,
+        name: uniqPluginName,
         main: entryFileName,
         scripts: {
           build: 'rollup --config ../rollup.config.js',

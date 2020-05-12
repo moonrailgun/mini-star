@@ -2,8 +2,10 @@ import path from 'path';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
+import ptconfig from '../.ptconfig.json';
 
-const name = process.env.npm_package_name;
+const scope = ptconfig.scope;
+const name = process.env.npm_package_name.replace(`@${scope}/`, '');
 const main = process.env.npm_package_main;
 
 /**

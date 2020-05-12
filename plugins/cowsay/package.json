@@ -1,0 +1,10 @@
+{
+  "name": "@template/cowsay",
+  "main": "index.ts",
+  "scripts": {
+    "build": "rollup --config ../rollup.config.js"
+  },
+  "dependencies": {
+    "cowsay": "^1.4.0"
+  }
+}
