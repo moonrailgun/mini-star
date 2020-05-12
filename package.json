@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "postinstall": "lerna bootstrap --no-ci --loglevel warn --concurrency 4 -- --no-audit",
+    "clean": "lerna run clean && jest --clearCache",
     "build": "webpack",
     "plugin:new": "ts-node -P tsconfig.node.json script/create-plugin.ts",
     "plugin:build": "rm -rf ./dist/plugin && lerna run build",

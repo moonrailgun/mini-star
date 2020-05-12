@@ -38,4 +38,11 @@ export default {
     sourcemap: true,
   },
   plugins: [typescript(), resolve({ browser: true }), commonjs(), replaceId()],
+  external: (id) => {
+    if (id.startsWith('@plugins/')) {
+      return true;
+    }
+
+    return false;
+  },
 };

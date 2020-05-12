@@ -48,21 +48,24 @@ async function run() {
     return;
   }
 
-  const entryFileName = `index.${language}`;
+  const entryFileName = `src/index.${language}`;
 
   const prefix = `@${ptconfig.scope}/`;
   const uniqPluginName = prefix + pluginName;
 
   fs.mkdirSync(path.resolve(pluginDir, pluginName));
+  fs.mkdirSync(path.resolve(pluginDir, pluginName, 'src'));
   fs.writeFileSync(
     path.resolve(pluginDir, pluginName, 'package.json'),
     JSON.stringify(
       {
         name: uniqPluginName,
         main: entryFileName,
+        version: '0.0.0',
         scripts: {
           build: 'rollup --config ../rollup.config.js',
         },
+        dependencies: {},
       },
       null,
       2

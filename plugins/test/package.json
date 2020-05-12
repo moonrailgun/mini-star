@@ -1,11 +1,9 @@
 {
-  "name": "@template/cowsay",
+  "name": "@template/test",
   "main": "src/index.ts",
   "version": "0.0.0",
   "scripts": {
     "build": "rollup --config ../rollup.config.js"
   },
-  "dependencies": {
-    "cowsay": "^1.4.0"
-  }
+  "dependencies": {}
 }
