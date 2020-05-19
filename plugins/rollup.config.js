@@ -19,7 +19,7 @@ const deps = Object.keys(rootConfig.devDependencies || {})
   .concat(Object.keys(config.devDependencies || {}))
   .concat(Object.keys(config.dependencies || {}))
   .concat(Object.keys(config.peerDependencies || {}))
-  .concat(apps.map((x) => `@plugin/${x}`));
+  .concat(apps.map((x) => `@plugins/${x}`));
 
 /**
  * reset amd id to uniq with `pluginName/fileName`
@@ -57,9 +57,7 @@ export default {
     replaceId(),
   ],
   external: (id) => {
-    console.log('id', id);
-
-    return true; // TODO
+    // console.log('id', id);
 
     for (const x of deps) {
       if (id.startsWith(x)) {
