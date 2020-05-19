@@ -4,8 +4,8 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "noImplicitAny": true,
-    "module": "ESNext",
-    "target": "ES5",
+    "module": "amd",
+    "target": "ES6",
     "allowJs": false,
     "strict": true,
     "moduleResolution": "node",
@@ -13,5 +13,6 @@
     "paths": {
       "@plugins/*": ["./plugins/*"]
     }
-  }
+  },
+  "exclude": ["node_modules", "**/__tests__/*"]
 }
