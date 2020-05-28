@@ -12,7 +12,8 @@
     "baseUrl": ".",
     "paths": {
       "@plugins/*": ["./plugins/*"]
-    }
+    },
+    "typeRoots": ["node_modules/@types", "plugins/*/typings"]
   },
   "exclude": ["node_modules", "**/__tests__/*"]
 }

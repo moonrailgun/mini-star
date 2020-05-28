@@ -1,6 +1,6 @@
 {
-  "name": "core",
-  "main": "index.ts",
+  "name": "@template/core",
+  "main": "src/index.ts",
   "scripts": {
     "build": "rollup --config ../rollup.config.js"
   }
