@@ -33,17 +33,19 @@ function replaceId() {
           p1,
           p2
         ) {
-          return `define('${p2}/${x.fileName}',`;
+          return `definePlugin('${p2}/${x.fileName}',`;
         });
       });
     },
   };
 }
 
+console.log('main', main)
+
 export default {
   input: main,
   output: {
-    dir: path.resolve(__dirname, '../dist/plugin', name),
+    dir: path.resolve(__dirname, '../dist/plugins', name),
     format: 'amd',
     amd: {
       id: name,

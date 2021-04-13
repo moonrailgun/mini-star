@@ -1,6 +1,8 @@
 {
   "version": "0.0.0",
   "packages": [
-    "plugins/*"
+    "capital",
+    "plugins/*",
+    "mini-star"
   ]
 }
