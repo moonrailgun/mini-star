@@ -14,7 +14,10 @@ interface LoadedModuleMap {
 
 const loadedModules: LoadedModuleMap = {};
 
-async function loadDep(dep: string): Promise<any> {
+/**
+ * Load Dependency Module
+ */
+async function loadDependency(dep: string): Promise<any> {
   const pluginModule = loadedModules[dep];
   if (pluginModule) {
     if (pluginModule.status === 'init') {
@@ -86,7 +89,7 @@ window.require = function (
   const allPromises = Promise.all(
     deps
       .map((dep, index) => {
-        return loadDep(dep);
+        return loadDependency(dep);
       })
       .filter(Boolean)
   );
