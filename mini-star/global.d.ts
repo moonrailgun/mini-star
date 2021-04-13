@@ -13,7 +13,7 @@ interface Window {
     deps: string[],
     callback: (...args: any[]) => ministar.Module
   ) => void;
-  require: (
+  requirePlugin: (
     deps: string[],
     callback: (...args: ministar.Module[]) => void
   ) => void;
