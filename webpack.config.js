@@ -18,6 +18,10 @@ module.exports = {
       },
     ],
   },
+  devServer: {
+    port: 5566,
+    contentBase: path.resolve(__dirname, './dist'),
+  },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },

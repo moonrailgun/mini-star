@@ -7,6 +7,7 @@
     "bootstrap": "lerna bootstrap --no-ci --loglevel warn --concurrency 4 -- --no-audit",
     "clean": "lerna run clean && jest --clearCache",
     "build": "webpack",
+    "dev": "webpack serve",
     "plugin:new": "ts-node -P tsconfig.node.json script/create-plugin.ts",
     "plugin:build": "rm -rf ./dist/plugin && lerna run build",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -30,6 +31,7 @@
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4",
     "webpack": "^5.31.2",
-    "webpack-cli": "^4.6.0"
+    "webpack-cli": "^4.6.0",
+    "webpack-dev-server": "^3.11.2"
   }
 }

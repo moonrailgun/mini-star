@@ -54,6 +54,7 @@ async function loadDependency(dep: string): Promise<any> {
       console.error(
         `[${dep}] Looks like is builtin module, and its cannot load it as remote script.`
       );
+      return;
     }
 
     return new Promise((resolve, reject) => {

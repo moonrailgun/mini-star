@@ -7,7 +7,7 @@ sayHello('Player');
 
 const pluginList = ['core', 'cowsay', 'test'].map((name) => ({
   name,
-  url: `/plugins/${name}`,
+  url: `/plugins/${name}/index.js`,
 }));
 
 loadPluginList(pluginList);
