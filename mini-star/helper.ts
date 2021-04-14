@@ -1,4 +1,4 @@
-import { loadPluginByUrl } from './loader';
+import { getPluginList, loadPluginByUrl } from './loader';
 import { createNewModuleLoader, setModuleLoaderLoaded } from './utils';
 
 type Module = ministar.Module;
@@ -10,12 +10,16 @@ interface LoadedModuleMap {
 
 const loadedModules: LoadedModuleMap = {};
 
+if (process.env.NODE_ENV === 'development') {
+  (window as any).loadedModules = loadedModules;
+}
+
 /**
  * Load Dependency Module
  */
 async function loadDependency(dep: string): Promise<any> {
-  const pluginModule = loadedModules[dep];
-  if (pluginModule) {
+  if (dep in loadedModules) {
+    const pluginModule = loadedModules[dep];
     if (pluginModule.status === 'init') {
       pluginModule.status = 'loading';
       return new Promise((resolve, reject) => {
@@ -43,7 +47,7 @@ async function loadDependency(dep: string): Promise<any> {
 
     if (!dep.endsWith('.js') && !dep.startsWith('./')) {
       console.error(
-        `[${dep}] Looks like is builtin module, and its cannot load it as remote script.`
+        `[${dep}] Looks like is builtin module, and its cannot load as remote script.`
       );
       return;
     }
@@ -53,6 +57,7 @@ async function loadDependency(dep: string): Promise<any> {
         .then(() => {
           const pluginModule = loadedModules[dep];
           pluginModule.status = 'loading';
+
           if (typeof pluginModule.entryFn !== 'function') {
             pluginModule.resolves.push(resolve);
             setModuleLoaderLoaded(pluginModule, null);
@@ -117,6 +122,8 @@ export function definePlugin(
       convertedDeps.filter((x) => x !== 'require' && x !== 'exports'),
       (...callbackArgs) => {
         let exports: any = {};
+
+        // Replace require
         if (requireIndex !== -1) {
           callbackArgs.splice(
             requireIndex,
@@ -135,9 +142,12 @@ export function definePlugin(
             }
           );
         }
+
+        // Replace exports
         if (exportsIndex !== -1) {
           callbackArgs.splice(exportsIndex, 0, exports);
         }
+
         try {
           const ret = callback(...callbackArgs);
           if (exportsIndex === -1 && ret) {
