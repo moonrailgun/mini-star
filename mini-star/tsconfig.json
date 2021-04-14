@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "noImplicitAny": true,
+    "target": "ES6",
+    "allowJs": false,
+    "strict": true,
+    "moduleResolution": "node",
+    "rootDir": "."
+  },
+  "exclude": ["node_modules"]
+}

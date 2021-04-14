@@ -1,15 +1,11 @@
 import { loadPluginByUrl } from './loader';
+import { createNewModuleLoader, setModuleLoaderLoaded } from './utils';
 
 type Module = ministar.Module;
-type ModuleStatus = ministar.ModuleStatus;
+type ModuleLoader = ministar.ModuleLoader;
 
 interface LoadedModuleMap {
-  [key: string]: {
-    status: ModuleStatus;
-    entryFn: (() => void) | null;
-    ins: Module | null;
-    resolves: ((value: Module | null) => void)[];
-  };
+  [key: string]: ModuleLoader;
 }
 
 const loadedModules: LoadedModuleMap = {};
@@ -43,12 +39,7 @@ async function loadDependency(dep: string): Promise<any> {
       return Promise.resolve(pluginModule.ins);
     }
   } else {
-    loadedModules[dep] = {
-      resolves: [],
-      status: 'new',
-      entryFn: null,
-      ins: null,
-    };
+    loadedModules[dep] = createNewModuleLoader();
 
     if (!dep.endsWith('.js') && !dep.startsWith('./')) {
       console.error(
@@ -63,14 +54,8 @@ async function loadDependency(dep: string): Promise<any> {
           const pluginModule = loadedModules[dep];
           pluginModule.status = 'loading';
           if (typeof pluginModule.entryFn !== 'function') {
-            pluginModule.status = 'loaded';
-            pluginModule.ins = null;
             pluginModule.resolves.push(resolve);
-            pluginModule.resolves.forEach((_resolve) => {
-              // Tell all module which dependency this module
-              _resolve(null);
-            });
-            pluginModule.resolves = [];
+            setModuleLoaderLoaded(pluginModule, null);
             return;
           }
           pluginModule.resolves.push(resolve);
@@ -163,14 +148,7 @@ export function definePlugin(
           return Promise.reject(e);
         }
 
-        return Promise.resolve(exports).then((e) => {
-          loadedModules[name].status = 'loaded';
-          loadedModules[name].ins = e;
-          loadedModules[name].resolves.forEach((_resolve) => {
-            _resolve(e);
-          });
-          loadedModules[name].resolves = [];
-        });
+        setModuleLoaderLoaded(loadedModules[name], exports);
       }
     );
   };

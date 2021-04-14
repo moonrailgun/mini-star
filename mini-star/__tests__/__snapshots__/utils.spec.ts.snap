@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createNewModuleLoader 1`] = `
+Object {
+  "entryFn": null,
+  "ins": null,
+  "resolves": Array [],
+  "status": "new",
+}
+`;
