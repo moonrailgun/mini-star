@@ -1,3 +1,3 @@
 import './init';
 
-export { loadPluginList } from './loader';
+export { initMiniStar, loadPluginList } from './loader';

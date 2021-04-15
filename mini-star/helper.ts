@@ -1,5 +1,9 @@
-import { getPluginList, loadPluginByUrl } from './loader';
-import { createNewModuleLoader, setModuleLoaderLoaded } from './utils';
+import { loadPluginByUrl } from './loader';
+import {
+  createNewModuleLoader,
+  processModulePath,
+  setModuleLoaderLoaded,
+} from './utils';
 
 type Module = ministar.Module;
 type ModuleLoader = ministar.ModuleLoader;
@@ -105,15 +109,7 @@ export function definePlugin(
   }
   loadedModules[name].status = 'init';
   loadedModules[name].entryFn = () => {
-    const convertedDeps = deps.map((module) => {
-      // if (module.startsWith('app/')) {
-      //   return convertAppToModuleName(module);
-      // }
-      // if (module.endsWith('.js') || module.startsWith('./')) {
-      //   return convertRelativePathToModuleName(name, module);
-      // }
-      return module;
-    });
+    const convertedDeps = deps.map((module) => processModulePath(name, module));
 
     const requireIndex = deps.findIndex((x) => x === 'require');
     const exportsIndex = deps.findIndex((x) => x === 'exports');
@@ -129,15 +125,9 @@ export function definePlugin(
             requireIndex,
             0,
             (deps: string[], callback: (...args: any[]) => void) => {
-              const convertedDeps = deps.map((module) => {
-                // if (module.startsWith('app/')) {
-                //   return convertAppToModuleName(module);
-                // }
-                // if (module.endsWith('.js') || module.startsWith('./')) {
-                //   return convertRelativePathToModuleName(name, module);
-                // }
-                return module;
-              });
+              const convertedDeps = deps.map((module) =>
+                processModulePath(name, module)
+              );
               requirePlugin(convertedDeps, callback);
             }
           );

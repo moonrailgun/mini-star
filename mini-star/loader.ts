@@ -3,7 +3,7 @@ import { requirePlugin } from './helper';
 export function loadPluginByUrl(url: string): Promise<Event> {
   return new Promise((resolve, reject) => {
     const scriptDom = document.createElement('script');
-    scriptDom.src = `${getPluginUrlPrefix()}/${url}`;
+    scriptDom.src = getPluginUrlPrefix() + url;
     scriptDom.onload = (e) => {
       resolve(e);
     };
@@ -43,11 +43,7 @@ export function getPluginUrlPrefix(): string {
  * @param plugins
  * @returns
  */
-export function loadPluginList(plugins: Plugin[], pluginUrlPrefix?: string) {
-  if (typeof pluginUrlPrefix === 'string') {
-    _pluginUrlPrefix = pluginUrlPrefix;
-  }
-
+export function loadPluginList(plugins: Plugin[]) {
   const allpromise = plugins.map((plugin) => {
     // Append Plugins
     _plugins[plugin.name] = { ...plugin, entry: 'index.js' };
@@ -63,4 +59,22 @@ export function loadPluginList(plugins: Plugin[], pluginUrlPrefix?: string) {
     });
   });
   return Promise.all(allpromise);
+}
+
+interface MiniStarOptions {
+  plugins?: Plugin[];
+  pluginUrlPrefix?: string;
+}
+
+/**
+ * Init Mini Star
+ */
+export async function initMiniStar(options: MiniStarOptions) {
+  if (typeof options.pluginUrlPrefix === 'string') {
+    _pluginUrlPrefix = options.pluginUrlPrefix;
+  }
+
+  if (Array.isArray(options.plugins) && options.plugins.length > 0) {
+    await loadPluginList(options.plugins);
+  }
 }
