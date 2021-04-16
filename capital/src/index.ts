@@ -1,3 +1,4 @@
+import './console-ui';
 import { sayHello } from './other';
 import { initMiniStar } from 'mini-star';
 

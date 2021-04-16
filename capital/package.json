@@ -9,6 +9,7 @@
   "author": "moonrailgun",
   "license": "MIT",
   "dependencies": {
+    "console-log-html": "^2.0.2",
     "mini-star": "^0.0.1"
   }
 }
