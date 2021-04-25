@@ -9,7 +9,7 @@
     "build": "webpack",
     "dev": "webpack serve",
     "plugin:new": "ts-node -P tsconfig.node.json script/create-plugin.ts",
-    "plugin:build": "rm -rf ./dist/plugin && lerna run build",
+    "plugin:build": "rm -rf ./dist/plugins && lerna run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

@@ -13,34 +13,36 @@ const config = JSON.parse(fs.readFileSync('./package.json', 'utf8')) || {};
 const rootConfig =
   JSON.parse(fs.readFileSync('../../package.json', 'utf8')) || {};
 const apps = fs.readdirSync('../');
-const deps = Object.keys(rootConfig.devDependencies || {})
-  .concat(Object.keys(rootConfig.dependencies || {}))
-  .concat(Object.keys(rootConfig.peerDependencies || {}))
-  .concat(Object.keys(config.devDependencies || {}))
-  .concat(Object.keys(config.dependencies || {}))
-  .concat(Object.keys(config.peerDependencies || {}))
-  .concat(apps.map((x) => `@plugins/${x}`));
+const deps = [
+  ...Object.keys(rootConfig.dependencies || {}),
+  ...Object.keys(rootConfig.devDependencies || {}),
+  ...Object.keys(rootConfig.peerDependencies || {}),
+  // ...Object.keys(config.dependencies || {}),
+  // ...Object.keys(config.devDependencies || {}),
+  // ...Object.keys(config.peerDependencies || {}),
+  ...apps.map((x) => `@plugins/${x}`),
+];
 
 /**
- * reset amd id to uniq with `pluginName/fileName`
+ * reset AMD id to uniq with `pluginName/fileName`
  */
 function replaceId() {
   return {
     name: 'replace',
     generateBundle(options, bundle) {
       Object.values(bundle).forEach((x) => {
-        x.code = x.code.replace(/define\(['|"]([^'"]+)['|"],/, function (
-          p1,
-          p2
-        ) {
-          return `definePlugin('${p2}/${x.fileName}',`;
-        });
+        x.code = x.code.replace(
+          /define\(['|"]([^'"]+)['|"],/,
+          function (p1, p2) {
+            return `definePlugin('${p2}/${x.fileName}',`;
+          }
+        );
       });
     },
   };
 }
 
-console.log('main', main)
+console.log('main', main);
 
 export default {
   input: main,

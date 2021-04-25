@@ -7,7 +7,12 @@ console.log('Hello World');
 
 sayHello('Player');
 
-const pluginList = ['core' /*, 'cowsay', 'test'*/].map((name) => ({
+const pluginList = [
+  // Plugin List Below
+  'core',
+  'alert',
+  'test',
+].map((name) => ({
   name,
   url: `${name}/index.js`,
 }));

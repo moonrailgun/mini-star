@@ -1,3 +1,3 @@
-import { say } from '@plugins/cowsay/src/index';
+import { alert } from '@plugins/alert/src/index';
 
-say('test say');
+alert('test alert');
