@@ -39,7 +39,6 @@ async function loadDependency(dep: string): Promise<any> {
   const moduleName = generateModuleName(dep);
 
   if (dep.startsWith('@plugins/')) {
-    // TODO: Its not good, change it!
     dep = dep.replace('@plugins/', getPluginUrlPrefix());
   }
 

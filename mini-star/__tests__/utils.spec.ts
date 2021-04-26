@@ -12,7 +12,7 @@ describe('processModulePath', () => {
     ['model.js', 'model.js'],
     ['./model', '@plugins/demo/model.js'],
     ['./model.js', '@plugins/demo/model.js'],
-    ['@plugins/common', '@plugins/common/index.js'],
+    ['@plugins/common', '@plugins/common'],
   ])('%s', (input, output) => {
     expect(processModulePath('@plugins/demo', input)).toBe(output);
   });

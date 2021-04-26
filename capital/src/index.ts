@@ -10,8 +10,8 @@ sayHello('Player');
 const pluginList = [
   // Plugin List Below
   'core',
-  // 'alert',
-  // 'test',
+  'alert',
+  'test',
 ].map((name) => ({
   name,
   url: `/plugins/${name}/index.js`,

@@ -55,7 +55,7 @@ export function processModulePath(
   path: string
 ): string {
   if (path.startsWith('@plugins/')) {
-    return `${path}/index.js`;
+    return path;
   }
 
   if (path.endsWith('.js') || path.startsWith('./')) {
