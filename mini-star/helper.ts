@@ -103,7 +103,6 @@ export function requirePlugin(
   deps: string[],
   callback: (...args: Module[]) => void
 ): void {
-  console.log('requirePlugin', deps);
   const allPromises = Promise.all(
     deps
       .map((dep, index) => {

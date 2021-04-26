@@ -63,14 +63,12 @@ export function loadPluginList(plugins: Plugin[]) {
       entry: 'index.js',
     };
 
-    console.log('_plugins', _plugins);
-
     const pluginName = plugin.name;
     const pluginUrl = plugin.url;
     return new Promise((resolve) => {
-      console.log(`[${pluginName}] Start Loading...`);
+      console.debug(`[${pluginName}] Start Loading...`);
       requirePlugin([`${pluginUrl}`], (b) => {
-        console.log(`[${pluginName}] Load Completed!`);
+        console.debug(`[${pluginName}] Load Completed!`);
         resolve(b);
       });
     });
