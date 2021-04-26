@@ -1,4 +1,5 @@
-import { getPluginList, getPluginUrlPrefix, loadPluginByUrl } from './loader';
+import { getPluginList, getPluginUrlPrefix } from './config';
+import { loadPluginByUrl } from './loader';
 import {
   createNewModuleLoader,
   processModulePath,

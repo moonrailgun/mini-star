@@ -1,6 +1,17 @@
 declare namespace ministar {
   type ModuleStatus = 'new' | 'init' | 'loading' | 'loaded';
 
+  interface GlobalConfig {
+    pluginUrlPrefix?: string;
+    pluginUrlBuilder?: (pluginName: string) => string;
+  }
+
+  interface Plugin {
+    name: string;
+    entry?: string;
+    url: string;
+  }
+
   interface Module {
     default?: any;
     [key: string]: any;
