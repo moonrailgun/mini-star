@@ -23,6 +23,10 @@ const deps = [
   ...apps.map((x) => `@plugins/${x}`),
 ];
 
+function getFileNameWithoutExt(filepath) {
+  return path.basename(filepath).split('.')[0];
+}
+
 /**
  * reset AMD id to uniq with `pluginName/fileName`
  */
@@ -33,8 +37,16 @@ function replaceId() {
       Object.values(bundle).forEach((x) => {
         x.code = x.code.replace(
           /define\(['|"]([^'"]+)['|"],/,
-          function (p1, p2) {
-            return `definePlugin('${p2}/${x.fileName}',`;
+          function (match, p1) {
+            const modulePrefix = `@plugins/${p1}`;
+            let moduleId = modulePrefix + '/' + x.fileName;
+            if (
+              getFileNameWithoutExt(main) === getFileNameWithoutExt(x.fileName)
+            ) {
+              moduleId = modulePrefix;
+            }
+
+            return `definePlugin('${moduleId}',`;
           }
         );
       });

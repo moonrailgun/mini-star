@@ -1,4 +1,4 @@
-import { loadPluginByUrl } from './loader';
+import { getPluginList, getPluginUrlPrefix, loadPluginByUrl } from './loader';
 import {
   createNewModuleLoader,
   processModulePath,
@@ -15,15 +15,37 @@ interface LoadedModuleMap {
 const loadedModules: LoadedModuleMap = {};
 
 if (process.env.NODE_ENV === 'development') {
+  // For debug.
   (window as any).loadedModules = loadedModules;
+}
+
+function generateModuleName(scriptUrl: string): string {
+  const pluginList = getPluginList();
+  const searchedPlugin = Object.entries(pluginList).find(
+    ([key, value]) => value.url === scriptUrl
+  );
+  if (searchedPlugin === undefined) {
+    // Cannot find Plugin
+    return scriptUrl;
+  } else {
+    return searchedPlugin[1].name;
+  }
 }
 
 /**
  * Load Dependency Module
  */
 async function loadDependency(dep: string): Promise<any> {
-  if (dep in loadedModules) {
-    const pluginModule = loadedModules[dep];
+  const moduleName = generateModuleName(dep);
+
+  if (dep.startsWith('@plugins/')) {
+    // TODO: Its not good, change it!
+    dep = dep.replace('@plugins/', getPluginUrlPrefix());
+  }
+
+  if (moduleName in loadedModules) {
+    const pluginModule = loadedModules[moduleName];
+
     if (pluginModule.status === 'init') {
       pluginModule.status = 'loading';
       return new Promise((resolve, reject) => {
@@ -47,7 +69,7 @@ async function loadDependency(dep: string): Promise<any> {
       return Promise.resolve(pluginModule.ins);
     }
   } else {
-    loadedModules[dep] = createNewModuleLoader();
+    loadedModules[moduleName] = createNewModuleLoader();
 
     if (!dep.endsWith('.js') && !dep.startsWith('./')) {
       console.error(
@@ -59,7 +81,7 @@ async function loadDependency(dep: string): Promise<any> {
     return new Promise((resolve, reject) => {
       loadPluginByUrl(dep)
         .then(() => {
-          const pluginModule = loadedModules[dep];
+          const pluginModule = loadedModules[moduleName];
           pluginModule.status = 'loading';
 
           if (typeof pluginModule.entryFn !== 'function') {
@@ -81,6 +103,7 @@ export function requirePlugin(
   deps: string[],
   callback: (...args: Module[]) => void
 ): void {
+  console.log('requirePlugin', deps);
   const allPromises = Promise.all(
     deps
       .map((dep, index) => {
@@ -102,54 +125,57 @@ export function definePlugin(
   deps: string[],
   callback: (...args: any[]) => Module
 ) {
-  if (!loadedModules[name]) {
-    loadedModules[name] = {
+  const moduleName = name;
+
+  if (!loadedModules[moduleName]) {
+    loadedModules[moduleName] = {
       resolves: [],
     } as any;
   }
-  loadedModules[name].status = 'init';
-  loadedModules[name].entryFn = () => {
+  loadedModules[moduleName].status = 'init';
+  loadedModules[moduleName].entryFn = () => {
     const convertedDeps = deps.map((module) => processModulePath(name, module));
 
     const requireIndex = deps.findIndex((x) => x === 'require');
     const exportsIndex = deps.findIndex((x) => x === 'exports');
 
-    requirePlugin(
-      convertedDeps.filter((x) => x !== 'require' && x !== 'exports'),
-      (...callbackArgs) => {
-        let exports: any = {};
-
-        // Replace require
-        if (requireIndex !== -1) {
-          callbackArgs.splice(
-            requireIndex,
-            0,
-            (deps: string[], callback: (...args: any[]) => void) => {
-              const convertedDeps = deps.map((module) =>
-                processModulePath(name, module)
-              );
-              requirePlugin(convertedDeps, callback);
-            }
-          );
-        }
-
-        // Replace exports
-        if (exportsIndex !== -1) {
-          callbackArgs.splice(exportsIndex, 0, exports);
-        }
-
-        try {
-          const ret = callback(...callbackArgs);
-          if (exportsIndex === -1 && ret) {
-            exports = ret;
-          }
-        } catch (e) {
-          console.error('Plugin init failed:', name, e);
-          return Promise.reject(e);
-        }
-
-        setModuleLoaderLoaded(loadedModules[name], exports);
-      }
+    const requiredDeps = convertedDeps.filter(
+      (x) => x !== 'require' && x !== 'exports'
     );
+
+    requirePlugin(requiredDeps, (...callbackArgs) => {
+      let exports: any = {};
+
+      // Replace require
+      if (requireIndex !== -1) {
+        callbackArgs.splice(
+          requireIndex,
+          0,
+          (deps: string[], callback: (...args: any[]) => void) => {
+            const convertedDeps = deps.map((module) =>
+              processModulePath(name, module)
+            );
+            requirePlugin(convertedDeps, callback);
+          }
+        );
+      }
+
+      // Replace exports
+      if (exportsIndex !== -1) {
+        callbackArgs.splice(exportsIndex, 0, exports);
+      }
+
+      try {
+        const ret = callback(...callbackArgs);
+        if (exportsIndex === -1 && ret) {
+          exports = ret;
+        }
+      } catch (e) {
+        console.error('Plugin init failed:', name, e);
+        return Promise.reject(e);
+      }
+
+      setModuleLoaderLoaded(loadedModules[name], exports);
+    });
   };
 }

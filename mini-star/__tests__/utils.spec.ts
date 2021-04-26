@@ -10,10 +10,10 @@ describe('processModulePath', () => {
     ['exports', 'exports'],
     ['model', 'model'],
     ['model.js', 'model.js'],
-    ['./model', 'demo/model.js'],
-    ['./model.js', 'demo/model.js'],
-    ['@plugin/common', 'common/index.js'],
+    ['./model', '@plugins/demo/model.js'],
+    ['./model.js', '@plugins/demo/model.js'],
+    ['@plugins/common', '@plugins/common/index.js'],
   ])('%s', (input, output) => {
-    expect(processModulePath('demo/index.js', input)).toBe(output);
+    expect(processModulePath('@plugins/demo', input)).toBe(output);
   });
 });

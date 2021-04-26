@@ -1,3 +1,4 @@
-import { alert } from '@plugins/alert/src/index';
+import { alert as myAlert } from '@plugins/alert';
 
-alert('test alert');
+console.log(myAlert);
+myAlert('test alert');

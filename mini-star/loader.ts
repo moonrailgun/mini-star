@@ -3,7 +3,7 @@ import { requirePlugin } from './helper';
 export function loadPluginByUrl(url: string): Promise<Event> {
   return new Promise((resolve, reject) => {
     const scriptDom = document.createElement('script');
-    scriptDom.src = getPluginUrlPrefix() + url;
+    scriptDom.src = url;
     scriptDom.onload = (e) => {
       resolve(e);
     };
@@ -23,6 +23,8 @@ interface Plugin {
 
 const _plugins: Record<string, Plugin> = {};
 let _pluginUrlPrefix: string = '/plugins/';
+let _pluginUrlBuilder = (pluginName: string) =>
+  `/plugins/${pluginName}/index.js`;
 
 /**
  * get all pluginList
@@ -39,6 +41,15 @@ export function getPluginUrlPrefix(): string {
 }
 
 /**
+ * Get plugin url builder
+ * @default
+ * (pluginName) => `/plugins/${pluginName}/index.js`
+ */
+export function getPluginUrlBuilder(pluginName: string): string {
+  return _pluginUrlBuilder(pluginName);
+}
+
+/**
  * Load All Plugin from List
  * @param plugins
  * @returns
@@ -46,7 +57,13 @@ export function getPluginUrlPrefix(): string {
 export function loadPluginList(plugins: Plugin[]) {
   const allpromise = plugins.map((plugin) => {
     // Append Plugins
-    _plugins[plugin.name] = { ...plugin, entry: 'index.js' };
+    _plugins[plugin.name] = {
+      ...plugin,
+      name: `@plugins/${plugin.name}`,
+      entry: 'index.js',
+    };
+
+    console.log('_plugins', _plugins);
 
     const pluginName = plugin.name;
     const pluginUrl = plugin.url;
@@ -63,17 +80,12 @@ export function loadPluginList(plugins: Plugin[]) {
 
 interface MiniStarOptions {
   plugins?: Plugin[];
-  pluginUrlPrefix?: string;
 }
 
 /**
  * Init Mini Star
  */
 export async function initMiniStar(options: MiniStarOptions) {
-  if (typeof options.pluginUrlPrefix === 'string') {
-    _pluginUrlPrefix = options.pluginUrlPrefix;
-  }
-
   if (Array.isArray(options.plugins) && options.plugins.length > 0) {
     await loadPluginList(options.plugins);
   }

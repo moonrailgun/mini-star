@@ -50,15 +50,17 @@ function trimDotOfPath(parent: string, self: string) {
 /**
  * A function how to process module path to real path
  */
-export function processModulePath(moduleName: string, path: string): string {
-  if (path.startsWith('@plugin/')) {
-    const name = path.split('/')[1];
-    return `${name}/index.js`;
+export function processModulePath(
+  baseModuleName: string,
+  path: string
+): string {
+  if (path.startsWith('@plugins/')) {
+    return `${path}/index.js`;
   }
 
   if (path.endsWith('.js') || path.startsWith('./')) {
     return trimDotOfPath(
-      moduleName,
+      baseModuleName + '/',
       !path.endsWith('.js') ? `${path}.js` : path
     );
   }
