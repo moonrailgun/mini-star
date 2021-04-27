@@ -4,7 +4,7 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "noImplicitAny": true,
-    "module": "amd",
+    "module": "ESNext",
     "target": "ES6",
     "allowJs": false,
     "strict": true,

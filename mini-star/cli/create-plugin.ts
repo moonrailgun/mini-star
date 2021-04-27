@@ -1,15 +1,7 @@
 import inquirer from 'inquirer';
 import path from 'path';
 import fs from 'fs';
-import { cosmiconfigSync } from 'cosmiconfig';
-const explorer = cosmiconfigSync('ministar');
-
-const defaultConfig = {
-  scope: 'template',
-};
-
-const configResult = explorer.search();
-const config = configResult?.config ?? defaultConfig;
+import { config } from '../bundler/config';
 
 const pluginDir = path.resolve(process.cwd(), './plugins');
 
@@ -67,9 +59,9 @@ export async function createPluginTemplate() {
     name: uniqPluginName,
     main: entryFileName,
     version: '0.0.0',
-    scripts: {
-      build: 'rollup --config ../rollup.config.js',
-    },
+    // scripts: {
+    //   build: 'rollup --config ../rollup.config.js',
+    // },
     dependencies: {},
   };
   if (config.author !== undefined) {
