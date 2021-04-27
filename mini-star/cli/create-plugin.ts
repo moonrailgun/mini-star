@@ -59,6 +59,7 @@ export async function createPluginTemplate() {
     name: uniqPluginName,
     main: entryFileName,
     version: '0.0.0',
+    private: true,
     // scripts: {
     //   build: 'rollup --config ../rollup.config.js',
     // },
