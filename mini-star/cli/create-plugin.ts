@@ -1,20 +1,27 @@
 import inquirer from 'inquirer';
 import path from 'path';
 import fs from 'fs';
+import { cosmiconfigSync } from 'cosmiconfig';
+const explorer = cosmiconfigSync('ministar');
 
-import ptconfig from '../.ptconfig.json';
+const defaultConfig = {
+  scope: 'template',
+};
 
-const pluginDir = path.resolve(__dirname, '../plugins');
+const configResult = explorer.search();
+const config = configResult?.config ?? defaultConfig;
 
-async function run() {
+const pluginDir = path.resolve(process.cwd(), './plugins');
+
+export async function createPluginTemplate() {
   const { pluginName, language, confirm } = await inquirer.prompt([
     {
       type: 'input',
       name: 'pluginName',
-      message: '插件名',
+      message: 'Plugin Name',
       validate(input) {
         if (!input) {
-          return '需要插件名';
+          return 'Require Plugin Name!';
         }
 
         return true;
@@ -23,7 +30,7 @@ async function run() {
     {
       type: 'list',
       name: 'language',
-      message: '语言',
+      message: 'Language',
       choices: [
         {
           name: 'Typescript',
@@ -39,7 +46,7 @@ async function run() {
       type: 'confirm',
       name: 'confirm',
       message: (answer) => {
-        return `确认创建插件: [${answer.pluginName}] ?`;
+        return `Ensure to create plugin: [${answer.pluginName}] ?`;
       },
     },
   ]);
@@ -50,36 +57,39 @@ async function run() {
 
   const entryFileName = `src/index.${language}`;
 
-  const prefix = `@${ptconfig.scope}/`;
+  const prefix = `@${config.scope}/`;
   const uniqPluginName = prefix + pluginName;
 
   fs.mkdirSync(path.resolve(pluginDir, pluginName));
   fs.mkdirSync(path.resolve(pluginDir, pluginName, 'src'));
+
+  const packageConfig: any = {
+    name: uniqPluginName,
+    main: entryFileName,
+    version: '0.0.0',
+    scripts: {
+      build: 'rollup --config ../rollup.config.js',
+    },
+    dependencies: {},
+  };
+  if (config.author !== undefined) {
+    packageConfig.author = config.author;
+  }
+  if (config.license !== undefined) {
+    packageConfig.license = config.license;
+  }
+
   fs.writeFileSync(
     path.resolve(pluginDir, pluginName, 'package.json'),
-    JSON.stringify(
-      {
-        name: uniqPluginName,
-        main: entryFileName,
-        version: '0.0.0',
-        scripts: {
-          build: 'rollup --config ../rollup.config.js',
-        },
-        dependencies: {},
-      },
-      null,
-      2
-    )
+    JSON.stringify(packageConfig, null, 2)
   );
   fs.writeFileSync(path.resolve(pluginDir, pluginName, entryFileName), '');
 
   console.log(
-    `插件 [${pluginName}] 创建完毕: ${path.resolve(
+    `Plugin [${pluginName}] create completed: ${path.resolve(
       pluginDir,
       pluginName,
       entryFileName
     )}`
   );
 }
-
-run();
