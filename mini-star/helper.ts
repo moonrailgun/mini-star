@@ -16,7 +16,7 @@ interface LoadedModuleMap {
 const loadedModules: LoadedModuleMap = {};
 
 if (process.env.NODE_ENV === 'development') {
-  // For debug.
+  // Just for debug.
   (window as any).loadedModules = loadedModules;
 }
 
@@ -176,5 +176,43 @@ export function definePlugin(
 
       setModuleLoaderLoaded(loadedModules[name], exports);
     });
+  };
+}
+
+/**
+ * Register Shared Module from capital.
+ */
+export function regSharedModule(name: string) {
+  if (
+    !name.startsWith('@capital') &&
+    !name.startsWith('@') &&
+    !name.startsWith('/')
+  ) {
+    // Auto Prefix
+    name = `@capital/${name}`;
+  }
+
+  return (fn: () => Promise<Module>) => {
+    if (loadedModules[name]) {
+      console.warn('dup reg', name);
+    }
+    loadedModules[name] = {
+      status: 'init',
+      ins: null,
+      resolves: [],
+      entryFn: () => {
+        fn().then((module) => {
+          module.hasOwnProperty = function (key: string) {
+            return !!module[key];
+          };
+          loadedModules[name].status = 'loaded';
+          loadedModules[name].ins = module;
+          loadedModules[name].resolves.forEach((resolve) => {
+            resolve(module);
+          });
+          loadedModules[name].resolves = [];
+        });
+      },
+    };
   };
 }

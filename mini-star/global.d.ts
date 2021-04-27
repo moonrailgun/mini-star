@@ -7,8 +7,13 @@ declare namespace ministar {
   }
 
   interface Plugin {
+    /**
+     * Plugin Name
+     */
     name: string;
-    entry?: string;
+    /**
+     * Plugin Url
+     */
     url: string;
   }
 

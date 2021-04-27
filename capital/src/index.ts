@@ -1,6 +1,6 @@
 import './console-ui';
 import { sayHello } from './other';
-import { initMiniStar } from 'mini-star';
+import { initMiniStar, regSharedModule } from 'mini-star';
 import './index.css';
 
 console.log('Hello World');
@@ -16,6 +16,8 @@ const pluginList = [
   name,
   url: `/plugins/${name}/index.js`,
 }));
+
+regSharedModule('@capital/shared')(() => import('./shared'));
 
 initMiniStar({
   plugins: pluginList,

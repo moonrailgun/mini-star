@@ -27,7 +27,6 @@ function loadPluginList(plugins: ministar.Plugin[]) {
     getPluginList()[plugin.name] = {
       ...plugin,
       name: `@plugins/${plugin.name}`,
-      entry: 'index.js',
     };
 
     const pluginName = plugin.name;
