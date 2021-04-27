@@ -1,6 +1,6 @@
 import './console-ui';
 import { sayHello } from './other';
-import { initMiniStar, regSharedModule } from 'mini-star';
+import { initMiniStar, regSharedModule } from 'mini-star/runtime';
 import './index.css';
 
 console.log('Hello World');
