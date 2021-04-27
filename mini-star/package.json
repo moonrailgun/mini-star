@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
+    "build": "tsc",
     "test": "jest"
+  },
+  "bin": {
+    "ministar": "./lib/cli/index.js",
+    "mini-star": "./lib/cli/index.js"
   },
   "keywords": [
     "micro-service",

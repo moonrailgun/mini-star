@@ -1,8 +1,9 @@
+#!/usr/bin/env node
+
 import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
 import { createPluginTemplate } from './create-plugin';
 import path from 'path';
-import fs from 'fs';
 import { bundlePlugin } from '../bundler/bundle';
 import { getPluginDirs } from '../bundler/utils';
 
