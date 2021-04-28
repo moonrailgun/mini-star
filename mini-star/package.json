@@ -1,16 +1,21 @@
 {
   "name": "mini-star",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
-  "main": "index.ts",
+  "main": "index.js",
   "scripts": {
     "build": "tsc",
+    "prepublish": "yarn build",
+    "release": "yarn publish",
     "test": "jest"
   },
   "bin": {
     "ministar": "./lib/cli/index.js",
     "mini-star": "./lib/cli/index.js"
   },
+  "files": [
+    "lib/"
+  ],
   "keywords": [
     "micro-service",
     "frontend",
@@ -19,6 +24,10 @@
   ],
   "author": "moonrailgun",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/moonrailgun/mini-star/issues"
+  },
+  "homepage": "https://github.com/moonrailgun/mini-star#readme",
   "devDependencies": {
     "@types/jest": "^26.0.22",
     "@types/yargs": "^16.0.1",
