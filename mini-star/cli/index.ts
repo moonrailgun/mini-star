@@ -17,14 +17,14 @@ yargs(hideBin(process.argv))
       //   describe: 'Plugin Name',
       // })
     },
-    (argv) => {
+    () => {
       createPluginTemplate();
     }
   )
   .command(
     'buildPlugin <pluginName>',
     'Bundle Plugin',
-    (yargs) => {},
+    () => {},
     (argv) => {
       const pluginName = argv['pluginName'] as string;
 

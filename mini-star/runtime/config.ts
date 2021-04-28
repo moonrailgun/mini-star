@@ -1,5 +1,5 @@
 const _plugins: Record<string, ministar.Plugin> = {};
-let _pluginUrlPrefix: string = '/plugins/';
+let _pluginUrlPrefix = '/plugins/';
 let _pluginUrlBuilder = (pluginName: string) =>
   `/plugins/${pluginName}/index.js`;
 

@@ -13,7 +13,7 @@ describe('plugin: simple', () => {
   });
 
   it('Should build async plugin', () => {
-    for (let fileName in files) {
+    for (const fileName in files) {
       expect(files[fileName]).toMatchSnapshot(fileName);
     }
   });

@@ -17,13 +17,14 @@ const loadedModules: LoadedModuleMap = {};
 
 if (process.env.NODE_ENV === 'development') {
   // Just for debug.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (window as any).loadedModules = loadedModules;
 }
 
 function generateModuleName(scriptUrl: string): string {
   const pluginList = getPluginList();
   const searchedPlugin = Object.entries(pluginList).find(
-    ([key, value]) => value.url === scriptUrl
+    ([, value]) => value.url === scriptUrl
   );
   if (searchedPlugin === undefined) {
     // Cannot find Plugin
@@ -53,7 +54,7 @@ async function loadDependency(dep: string): Promise<any> {
 
         if (typeof pluginModule.entryFn !== 'function') {
           reject('Load dependencies error, this should have a valid ');
-          return;
+          return null;
         }
 
         pluginModule.entryFn();
@@ -105,7 +106,7 @@ export function requirePlugin(
 ): void {
   const allPromises = Promise.all(
     deps
-      .map((dep, index) => {
+      .map((dep) => {
         return loadDependency(dep);
       })
       .filter(Boolean)
@@ -115,7 +116,7 @@ export function requirePlugin(
     .then((args) => callback(...args))
     .catch((err) => {
       console.error(err);
-      callback([]);
+      callback();
     });
 }
 

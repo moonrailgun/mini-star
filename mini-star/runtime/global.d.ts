@@ -18,8 +18,8 @@ declare namespace ministar {
   }
 
   interface Module {
-    default?: any;
-    [key: string]: any;
+    default?: unknown;
+    [key: string]: unknown;
   }
 
   interface ModuleLoader {
@@ -34,7 +34,7 @@ interface Window {
   definePlugin: (
     name: string,
     deps: string[],
-    callback: (...args: any[]) => ministar.Module
+    callback: (...args: unknown[]) => ministar.Module
   ) => void;
   requirePlugin: (
     deps: string[],

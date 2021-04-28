@@ -16,7 +16,7 @@ export function createNewModuleLoader(): ministar.ModuleLoader {
  */
 export function setModuleLoaderLoaded(
   moduleLoader: ministar.ModuleLoader,
-  moduleExport: {} | null
+  moduleExport: ministar.Module | null
 ) {
   moduleLoader.status = 'loaded';
   moduleLoader.ins = moduleExport;
