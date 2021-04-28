@@ -1,22 +1,39 @@
-import { readFiles, setupBuildTest } from '../../utils';
+import { loadHTMLFile, readFiles, setupBuildTest, sleep } from '../../utils';
 import path from 'path';
 
 const output = path.join(__dirname, 'dist');
 
-describe('plugin: simple', () => {
-  let files: Record<string, string> = {};
+let files: Record<string, string> = {};
 
-  beforeAll(() => {
-    setupBuildTest(__dirname);
+beforeAll(() => {
+  setupBuildTest(__dirname);
 
-    files = readFiles(output);
-  });
+  files = readFiles(output);
+});
 
+describe('plugin', () => {
   it('Should build simple plugin', () => {
     expect(Object.keys(files)).toEqual([
+      '/bundle.js',
+      '/bundle.js.map',
+      '/index.html',
       '/plugins/demo/index.js',
       '/plugins/demo/index.js.map',
     ]);
     expect(files['/plugins/demo/index.js']).toMatchSnapshot();
+  });
+});
+
+describe('runtime', () => {
+  it('html', async () => {
+    const { dom } = await loadHTMLFile(
+      path.resolve(__dirname, './dist/index.html')
+    );
+
+    expect(dom.window.document.body.innerHTML).toMatchSnapshot();
+
+    await sleep(1000);
+
+    expect(dom.window.document.body.innerHTML).toMatchSnapshot();
   });
 });

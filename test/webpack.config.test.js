@@ -3,12 +3,12 @@ const path = require('path');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: process.env.NODE_ENV || 'development',
+  mode: 'production',
   entry: './capital/src/index.ts',
   devtool: 'cheap-module-source-map', // for debug
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(process.cwd(), 'dist'),
   },
   module: {
     rules: [
@@ -28,12 +28,8 @@ module.exports = {
       },
     ],
   },
-  devServer: {
-    port: 5566,
-    contentBase: path.resolve(__dirname, './dist'),
-  },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.tsx', '.ts'],
   },
   plugins: [
     new HtmlwebpackPlugin({

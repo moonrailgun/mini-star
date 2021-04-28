@@ -2,6 +2,7 @@ import { execSync } from 'child_process';
 import { glob } from 'glob';
 import fs from 'fs';
 import path from 'path';
+import { JSDOM } from 'jsdom';
 
 const UTF8_FRIENDLY_EXTS = [
   'css',
@@ -47,4 +48,24 @@ export function readFiles(directory: string) {
   });
 
   return contents;
+}
+
+export async function loadHTMLFile(filepath: string) {
+  const dom = await JSDOM.fromFile(filepath, {
+    resources: 'usable',
+    runScripts: 'dangerously',
+  });
+
+  return { dom };
+}
+
+/**
+ * JavaScript 中的 sleep 函数
+ * 参考 https://github.com/sqren/await-sleep/blob/master/index.js
+ * @param milliseconds 阻塞毫秒
+ */
+export function sleep(milliseconds: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, milliseconds);
+  });
 }

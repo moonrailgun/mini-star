@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`plugin: simple Should build simple plugin 1`] = `
+exports[`plugin Should build simple plugin 1`] = `
 "definePlugin('@plugins/demo', function () { 'use strict';
 
 	console.log('Hello World!');
@@ -9,3 +9,7 @@ exports[`plugin: simple Should build simple plugin 1`] = `
 //# sourceMappingURL=index.js.map
 "
 `;
+
+exports[`runtime html 1`] = `""`;
+
+exports[`runtime html 2`] = `"<script src=\\"plugins/demo/index.js\\"></script>"`;
