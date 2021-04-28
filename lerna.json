@@ -4,6 +4,6 @@
     "capital",
     "plugins/*",
     "mini-star",
-    "test/plugin/*"
+    "test/plugins/*"
   ]
 }

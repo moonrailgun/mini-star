@@ -2,6 +2,11 @@
 
 A bundler and loader which help your project pluginize.
 
+## Feature
+
+- Support `Typescript`
+- Fast and smart
+
 ### Different with requirejs
 
 - Provide a bundler help to build your plugin with `amd`.

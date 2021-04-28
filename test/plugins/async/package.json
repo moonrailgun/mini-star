@@ -1,0 +1,11 @@
+{
+  "name": "@mini-star/test-async",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "testbuild": "ministar buildPlugin all"
+  },
+  "devDependencies": {
+    "mini-star": "*"
+  }
+}
