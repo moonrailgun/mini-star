@@ -127,6 +127,12 @@ export function definePlugin(
 ) {
   const moduleName = name;
 
+  if (arguments.length === 2) {
+    // AMD No Deps case
+    callback = deps as any;
+    deps = [];
+  }
+
   if (!loadedModules[moduleName]) {
     loadedModules[moduleName] = {
       resolves: [],
