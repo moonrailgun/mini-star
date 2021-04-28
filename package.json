@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "private": false,
+  "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap --no-ci --loglevel warn --concurrency 4 -- --no-audit",
     "prepare": "husky install",
