@@ -3,6 +3,7 @@
   "packages": [
     "capital",
     "plugins/*",
-    "mini-star"
+    "mini-star",
+    "test/plugin/*"
   ]
 }

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`plugin: simple Should build simple plugin 1`] = `
+"definePlugin('@plugins/demo', function () { 'use strict';
+
+	console.log('Hello World!');
+
+});
+//# sourceMappingURL=index.js.map
+"
+`;
