@@ -17,7 +17,7 @@ const pluginList = [
   url: `/plugins/${name}/index.js`,
 }));
 
-regSharedModule('@capital/shared')(() => import('./shared'));
+regSharedModule('@capital/shared', () => import('./shared'));
 
 initMiniStar({
   plugins: pluginList,

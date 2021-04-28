@@ -182,7 +182,7 @@ export function definePlugin(
 /**
  * Register Shared Module from capital.
  */
-export function regSharedModule(name: string) {
+export function regSharedModule(name: string, fn: () => Promise<Module>) {
   if (
     !name.startsWith('@capital') &&
     !name.startsWith('@') &&
@@ -192,27 +192,25 @@ export function regSharedModule(name: string) {
     name = `@capital/${name}`;
   }
 
-  return (fn: () => Promise<Module>) => {
-    if (loadedModules[name]) {
-      console.warn('dup reg', name);
-    }
-    loadedModules[name] = {
-      status: 'init',
-      ins: null,
-      resolves: [],
-      entryFn: () => {
-        fn().then((module) => {
-          module.hasOwnProperty = function (key: string) {
-            return !!module[key];
-          };
-          loadedModules[name].status = 'loaded';
-          loadedModules[name].ins = module;
-          loadedModules[name].resolves.forEach((resolve) => {
-            resolve(module);
-          });
-          loadedModules[name].resolves = [];
+  if (loadedModules[name]) {
+    console.warn('dup reg', name);
+  }
+  loadedModules[name] = {
+    status: 'init',
+    ins: null,
+    resolves: [],
+    entryFn: () => {
+      fn().then((module) => {
+        module.hasOwnProperty = function (key: string) {
+          return !!module[key];
+        };
+        loadedModules[name].status = 'loaded';
+        loadedModules[name].ins = module;
+        loadedModules[name].resolves.forEach((resolve) => {
+          resolve(module);
         });
-      },
-    };
+        loadedModules[name].resolves = [];
+      });
+    },
   };
 }
