@@ -29,13 +29,13 @@ yargs(hideBin(process.argv))
       const pluginName = argv['pluginName'] as string;
 
       function bundleSinglePlugin(name: string) {
-        const fullDirPath = path.resolve(
+        const pluginPackageJsonPath = path.resolve(
           process.cwd(),
           './plugins/',
           name,
           './package.json'
         );
-        bundlePlugin(fullDirPath);
+        bundlePlugin(pluginPackageJsonPath);
       }
 
       if (pluginName === 'all') {
