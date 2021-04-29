@@ -3,7 +3,7 @@
 exports[`plugin Should build simple plugin 1`] = `
 "definePlugin('@plugins/demo', function () { 'use strict';
 
-	console.log('Hello World!');
+	console.log('Hello Demo!');
 
 });
 //# sourceMappingURL=index.js.map

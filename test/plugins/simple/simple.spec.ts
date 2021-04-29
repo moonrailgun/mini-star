@@ -26,14 +26,17 @@ describe('plugin', () => {
 
 describe('runtime', () => {
   it('html', async () => {
-    const { dom } = await loadHTMLFile(
+    const { dom, logFn } = await loadHTMLFile(
       path.resolve(__dirname, './dist/index.html')
     );
 
     expect(dom.window.document.body.innerHTML).toMatchSnapshot();
 
-    await sleep(1000);
+    await sleep(500);
 
     expect(dom.window.document.body.innerHTML).toMatchSnapshot();
+
+    expect(logFn.mock.calls.length).toBeGreaterThanOrEqual(2);
+    expect(logFn.mock.calls).toEqual([['Hello World'], ['Hello Demo!']]);
   });
 });

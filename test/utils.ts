@@ -2,7 +2,7 @@ import { execSync } from 'child_process';
 import { glob } from 'glob';
 import fs from 'fs';
 import path from 'path';
-import { JSDOM } from 'jsdom';
+import { JSDOM, VirtualConsole } from 'jsdom';
 
 const UTF8_FRIENDLY_EXTS = [
   'css',
@@ -51,12 +51,24 @@ export function readFiles(directory: string) {
 }
 
 export async function loadHTMLFile(filepath: string) {
+  const virtualConsole = new VirtualConsole();
+  const logFn = jest.fn();
+  const debugFn = jest.fn();
+  const errorFn = jest.fn();
+  const warnFn = jest.fn();
+
+  virtualConsole.on('log', logFn);
+  virtualConsole.on('debug', debugFn);
+  virtualConsole.on('error', errorFn);
+  virtualConsole.on('warn', warnFn);
+
   const dom = await JSDOM.fromFile(filepath, {
     resources: 'usable',
     runScripts: 'dangerously',
+    virtualConsole,
   });
 
-  return { dom };
+  return { dom, logFn, debugFn, errorFn, warnFn };
 }
 
 /**
