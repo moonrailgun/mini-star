@@ -7,9 +7,13 @@ import { config } from './config';
 import { RollupOptions, Plugin } from 'rollup';
 import { getPluginDirs } from './utils';
 
+// https://github.com/rollup/rollup/blob/master/docs/999-big-list-of-options.md
+
+type RequiredPick<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
+
 export function buildRollupOptions(
   pluginPackageJsonPath: string
-): RollupOptions {
+): RequiredPick<RollupOptions, 'input' | 'output' | 'plugins' | 'external'> {
   const packageConfig =
     JSON.parse(fs.readFileSync(pluginPackageJsonPath, 'utf8')) || {};
   const scope = config.scope;
@@ -42,22 +46,27 @@ export function buildRollupOptions(
     return {
       name: 'replace',
       generateBundle(options, bundle) {
-        Object.values(bundle).forEach((item: any) => {
-          item.code = item.code.replace(
-            /define\(['|"]([^'"]+)['|"],/,
-            function (match: string, p1: string) {
-              const modulePrefix = `@plugins/${p1}`;
-              let moduleId = modulePrefix + '/' + item.fileName;
-              if (
-                getFileNameWithoutExt(main) ===
-                getFileNameWithoutExt(item.fileName)
-              ) {
-                moduleId = modulePrefix;
-              }
+        Object.values(bundle).forEach((item) => {
+          if ('code' in item) {
+            // Process OutputChunk
+            item.code = item.code.replace(
+              /definePlugin\(['|"]([^'"]+)['|"],/,
+              function (match: string, p1: string) {
+                let moduleId = p1;
+                if (
+                  getFileNameWithoutExt(main) ===
+                  getFileNameWithoutExt(item.fileName)
+                ) {
+                  moduleId = `@plugins/${name}`;
+                } else if (!p1.endsWith('.js')) {
+                  // TODO: Need to optimize
+                  moduleId += '.js';
+                }
 
-              return `definePlugin('${moduleId}',`;
-            }
-          );
+                return `definePlugin('${moduleId}',`;
+              }
+            );
+          }
         });
       },
     };
@@ -69,7 +78,9 @@ export function buildRollupOptions(
       dir: path.resolve(process.cwd(), './dist/plugins', name),
       format: 'amd',
       amd: {
-        id: name,
+        autoId: true,
+        basePath: `@plugins/${name}`,
+        define: 'definePlugin',
       },
       sourcemap: true,
     },
