@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "testbuild": "../../../node_modules/.bin/webpack --config ../../webpack.config.test.js && ministar buildPlugin all"
+    "testbuild": "../../../node_modules/.bin/webpack --config ../../webpack.test.config.js && ministar buildPlugin all"
   },
   "devDependencies": {
     "mini-star": "*"
