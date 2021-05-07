@@ -26,7 +26,7 @@ describe('plugin', () => {
 
 describe('runtime', () => {
   it('html', async () => {
-    const { dom, logFn } = await loadHTMLFile(
+    const { dom, logFn, errorFn } = await loadHTMLFile(
       path.resolve(__dirname, './dist/index.html')
     );
 
@@ -36,7 +36,8 @@ describe('runtime', () => {
 
     expect(dom.window.document.body.innerHTML).toMatchSnapshot();
 
-    expect(logFn.mock.calls.length).toBeGreaterThanOrEqual(2);
+    expect(logFn.mock.calls.length).toBe(2);
     expect(logFn.mock.calls).toEqual([['Hello World'], ['Hello Demo!']]);
+    expect(errorFn.mock.calls.length).toBe(0);
   });
 });

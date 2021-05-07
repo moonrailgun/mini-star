@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`runtime html 1`] = `""`;
+
+exports[`runtime html 2`] = `"<script src=\\"plugins/first/index.js\\"></script><script src=\\"plugins/third/index.js\\"></script><script src=\\"plugins/second/index.js\\"></script>"`;
