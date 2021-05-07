@@ -3,7 +3,6 @@
   "version": "0.0.2",
   "description": "",
   "main": "./lib/runtime/index.js",
-  "types": "./global.d.ts",
   "scripts": {
     "build": "rimraf ./lib/**/*.d.ts && tsc",
     "prepublish": "yarn build",

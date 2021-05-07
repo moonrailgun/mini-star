@@ -54,7 +54,7 @@ export function processModulePath(
   baseModuleName: string,
   path: string
 ): string {
-  if (path.startsWith('@plugins/')) {
+  if (isPluginModuleName(path)) {
     return path;
   }
 
@@ -66,4 +66,42 @@ export function processModulePath(
   }
 
   return path;
+}
+
+/**
+ * @example
+ * @plugins/any => true
+ */
+export function isPluginModuleName(fullName: string): boolean {
+  if (typeof fullName !== 'string') {
+    return false;
+  }
+
+  return fullName.startsWith('@plugins/');
+}
+
+/**
+ * @example
+ * @plugins/any => true
+ * @plugins/any/other.js => false
+ */
+export function isPluginModuleEntry(fullName: string): boolean {
+  if (typeof fullName !== 'string') {
+    return false;
+  }
+
+  return fullName.startsWith('@plugins/') && fullName.split('/').length === 2;
+}
+
+/**
+ * @example
+ * @plugins/any => any
+ */
+export function getPluginName(fullName: string): string | null {
+  if (!isPluginModuleName(fullName)) {
+    return null;
+  }
+
+  const [, name] = fullName.split('/');
+  return name;
 }

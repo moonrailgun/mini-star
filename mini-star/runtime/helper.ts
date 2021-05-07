@@ -1,7 +1,13 @@
-import { getPluginList, getPluginUrlPrefix } from './config';
+import {
+  getPluginList,
+  getPluginUrlBuilder,
+  getPluginUrlPrefix,
+} from './config';
 import { loadPluginByUrl } from './loader';
 import {
   createNewModuleLoader,
+  getPluginName,
+  isPluginModuleEntry,
   processModulePath,
   setModuleLoaderLoaded,
 } from './utils';
@@ -70,9 +76,18 @@ async function loadDependency(dep: string): Promise<any> {
       return Promise.resolve(pluginModule.ins);
     }
   } else {
+    // Not exist
     loadedModules[moduleName] = createNewModuleLoader();
 
-    if (!dep.endsWith('.js') && !dep.startsWith('./')) {
+    if (isPluginModuleEntry(moduleName)) {
+      const pluginName = getPluginName(moduleName);
+      if (pluginName === null) {
+        console.error(`[${moduleName}] Looks like not a valid module name.`);
+        return;
+      }
+
+      dep = getPluginUrlBuilder(pluginName);
+    } else if (!dep.endsWith('.js') && !dep.startsWith('./')) {
       console.error(
         `[${dep}] Looks like is builtin module, and its cannot load as remote script.`
       );
