@@ -2,9 +2,10 @@
   "name": "mini-star",
   "version": "0.0.2",
   "description": "",
-  "main": "index.js",
+  "main": "./lib/runtime/index.js",
+  "types": "./global.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "rimraf ./lib/**/*.d.ts && tsc",
     "prepublish": "yarn build",
     "release": "yarn publish",
     "test": "jest"
@@ -14,7 +15,8 @@
     "mini-star": "./lib/cli/index.js"
   },
   "files": [
-    "lib/"
+    "lib/",
+    "global.d.ts"
   ],
   "keywords": [
     "micro-service",
@@ -38,6 +40,7 @@
   },
   "dependencies": {
     "cosmiconfig": "^7.0.0",
+    "rimraf": "^3.0.2",
     "yargs": "^16.2.0"
   }
 }

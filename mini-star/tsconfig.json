@@ -3,6 +3,7 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "noImplicitAny": true,
+    "declaration": true,
     "target": "ES5",
     "outDir": "lib",
     "allowJs": false,
@@ -10,5 +11,5 @@
     "moduleResolution": "node",
     "rootDir": "."
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "**/__tests__/**"]
 }
