@@ -1,3 +1,7 @@
-.text-danger {
+.console-log > .text-danger {
   color: red;
+}
+
+.console-log > .text-info {
+  color: grey;
 }

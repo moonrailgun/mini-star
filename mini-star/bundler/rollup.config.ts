@@ -14,9 +14,19 @@ type RequiredPick<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
 export function buildRollupOptions(
   pluginPackageJsonPath: string
 ): RequiredPick<RollupOptions, 'input' | 'output' | 'plugins' | 'external'> {
-  const packageConfig =
-    JSON.parse(fs.readFileSync(pluginPackageJsonPath, 'utf8')) || {};
+  let packageConfig: any = {};
+  try {
+    packageConfig =
+      JSON.parse(fs.readFileSync(pluginPackageJsonPath, 'utf8')) || {};
+  } catch (err) {
+    throw new Error(`Read [${pluginPackageJsonPath}] fail: ${String(err)}`);
+  }
   const scope = config.scope;
+
+  if (!('name' in packageConfig) || !('main' in packageConfig)) {
+    throw new Error(`[${pluginPackageJsonPath}] require field: name, main`);
+  }
+
   const name = packageConfig.name.replace(`@${scope}/`, '');
   const main = packageConfig.main;
 

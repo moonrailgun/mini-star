@@ -1,3 +1,3 @@
 export function runB() {
-  console.log('B is Run[async]');
+  console.log('[core]', 'B is Run[async]');
 }

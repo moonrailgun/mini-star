@@ -1,3 +1,3 @@
 export function runA() {
-  console.log('A is Run[sync]');
+  console.log('[core]', 'A is Run[sync]');
 }
