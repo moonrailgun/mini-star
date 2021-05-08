@@ -3,7 +3,6 @@ import {
   getPluginUrlBuilder,
   getPluginUrlPrefix,
 } from './config';
-import { loadPluginByUrl } from './loader';
 import {
   createNewModuleLoader,
   getPluginName,
@@ -38,6 +37,21 @@ function generateModuleName(scriptUrl: string): string {
   } else {
     return searchedPlugin[1].name;
   }
+}
+
+function loadPluginByUrl(url: string): Promise<Event> {
+  return new Promise((resolve, reject) => {
+    const scriptDom = document.createElement('script');
+    scriptDom.src = url;
+    scriptDom.onload = (e) => {
+      resolve(e);
+    };
+    scriptDom.onerror = (e) => {
+      reject(e);
+    };
+
+    document.body.appendChild(scriptDom);
+  });
 }
 
 /**

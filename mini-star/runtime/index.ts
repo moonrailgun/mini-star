@@ -1,4 +1,4 @@
 import './init';
 
-export { initMiniStar } from './loader';
+export { initMiniStar, loadSinglePlugin, loadPluginList } from './loader';
 export { regSharedModule } from './helper';

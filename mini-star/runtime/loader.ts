@@ -1,27 +1,12 @@
 import { applyConfig, getPluginList } from './config';
 import { requirePlugin } from './helper';
 
-export function loadPluginByUrl(url: string): Promise<Event> {
-  return new Promise((resolve, reject) => {
-    const scriptDom = document.createElement('script');
-    scriptDom.src = url;
-    scriptDom.onload = (e) => {
-      resolve(e);
-    };
-    scriptDom.onerror = (e) => {
-      reject(e);
-    };
-
-    document.body.appendChild(scriptDom);
-  });
-}
-
 /**
  * Load All Plugin from List
- * @param plugins
- * @returns
  */
-function loadPluginList(plugins: ministar.Plugin[]) {
+export function loadPluginList(
+  plugins: ministar.Plugin[]
+): Promise<ministar.Module[]> {
   const allpromise = plugins.map((plugin) => {
     // Append Plugins
     getPluginList()[plugin.name] = {
@@ -31,21 +16,31 @@ function loadPluginList(plugins: ministar.Plugin[]) {
 
     const pluginName = plugin.name;
     const pluginUrl = plugin.url;
-    return new Promise((resolve) => {
+    return new Promise<ministar.Module>((resolve) => {
       console.debug(`[${pluginName}] Start Loading...`);
-      requirePlugin([`${pluginUrl}`], (b) => {
+      requirePlugin([`${pluginUrl}`], (pluginModule) => {
         console.debug(`[${pluginName}] Load Completed!`);
-        resolve(b);
+        resolve(pluginModule);
       });
     });
   });
+
   return Promise.all(allpromise);
+}
+
+/**
+ * Load Single Plugin
+ */
+export async function loadSinglePlugin(
+  plugin: ministar.Plugin
+): Promise<ministar.Module> {
+  const [pluginModule] = await loadPluginList([plugin]);
+  return pluginModule;
 }
 
 interface MiniStarOptions extends ministar.GlobalConfig {
   plugins?: ministar.Plugin[];
 }
-
 /**
  * Init Mini Star
  */
