@@ -1,12 +1,12 @@
 {
   "name": "mini-star",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "main": "./lib/runtime/index.js",
   "scripts": {
     "build": "rimraf ./lib/**/*.d.ts && tsc",
     "prepublish": "yarn build",
-    "release": "yarn publish",
+    "release": "yarn publish --patch",
     "test": "jest"
   },
   "bin": {
