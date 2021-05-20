@@ -7,6 +7,7 @@ import path from 'path';
 import { bundlePlugin } from '../bundler/bundle';
 import { getPluginDirs } from '../bundler/utils';
 import { config } from '../bundler/config';
+import ora from 'ora';
 
 yargs(hideBin(process.argv))
   .command(
@@ -26,34 +27,35 @@ yargs(hideBin(process.argv))
     'buildPlugin <pluginName>',
     'Bundle Plugin',
     () => {},
-    (argv) => {
+    async (argv) => {
       const pluginName = argv['pluginName'] as string;
 
-      function bundleSinglePlugin(name: string) {
-        console.log('Start to bundle plugin:', name);
+      async function bundleSinglePlugin(name: string) {
         const pluginPackageJsonPath = path.resolve(
           config.pluginRoot,
           './plugins/',
           name,
           './package.json'
         );
+        const spinner = ora(`Building plugin [${name}]...`).start();
         const startTime = new Date().valueOf();
-        bundlePlugin(pluginPackageJsonPath)
-          .then(() => {
-            const usage = new Date().valueOf() - startTime;
-            console.log(`Bundle ${name} success in ${usage}ms!`);
-          })
-          .catch((err) => {
-            console.error(`Bundle ${name} error:`, err);
-          });
+
+        try {
+          await bundlePlugin(pluginPackageJsonPath);
+          const usage = new Date().valueOf() - startTime;
+          spinner.succeed(`Bundle [${name}] success in ${usage}ms!`);
+        } catch (err) {
+          spinner.fail(`Bundle [${name}] error`);
+          console.error(err);
+        }
       }
 
       if (pluginName === 'all') {
         for (const name of getPluginDirs()) {
-          bundleSinglePlugin(name);
+          await bundleSinglePlugin(name);
         }
       } else {
-        bundleSinglePlugin(pluginName);
+        await bundleSinglePlugin(pluginName);
       }
     }
   )

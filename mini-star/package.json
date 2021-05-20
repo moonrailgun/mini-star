@@ -1,6 +1,6 @@
 {
   "name": "mini-star",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "",
   "main": "./lib/runtime/index.js",
   "scripts": {
@@ -40,6 +40,7 @@
     "@rollup/plugin-commonjs": "^19.0.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
     "cosmiconfig": "^7.0.0",
+    "ora": "^5.4.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.48.0",
     "rollup-plugin-typescript2": "^0.30.0",
