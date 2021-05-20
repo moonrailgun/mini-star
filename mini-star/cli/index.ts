@@ -6,6 +6,7 @@ import { createPluginTemplate } from './create-plugin';
 import path from 'path';
 import { bundlePlugin } from '../bundler/bundle';
 import { getPluginDirs } from '../bundler/utils';
+import { config } from '../bundler/config';
 
 yargs(hideBin(process.argv))
   .command(
@@ -29,13 +30,22 @@ yargs(hideBin(process.argv))
       const pluginName = argv['pluginName'] as string;
 
       function bundleSinglePlugin(name: string) {
+        console.log('Start to bundle plugin:', name);
         const pluginPackageJsonPath = path.resolve(
-          process.cwd(),
+          config.pluginRoot,
           './plugins/',
           name,
           './package.json'
         );
-        bundlePlugin(pluginPackageJsonPath);
+        const startTime = new Date().valueOf();
+        bundlePlugin(pluginPackageJsonPath)
+          .then(() => {
+            const usage = new Date().valueOf() - startTime;
+            console.log(`Bundle ${name} success in ${usage}ms!`);
+          })
+          .catch((err) => {
+            console.error(`Bundle ${name} error:`, err);
+          });
       }
 
       if (pluginName === 'all') {

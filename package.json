@@ -37,9 +37,6 @@
   "devDependencies": {
     "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.1.1",
-    "@rollup/plugin-commonjs": "^18.0.0",
-    "@rollup/plugin-node-resolve": "^11.2.1",
-    "@rollup/plugin-typescript": "^8.2.1",
     "@types/inquirer": "^7.3.1",
     "@types/jest": "^26.0.23",
     "@types/jsdom": "^16.2.10",
