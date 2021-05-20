@@ -1,6 +1,6 @@
 import path from 'path';
 import resolve from '@rollup/plugin-node-resolve';
-import typescript from '@rollup/plugin-typescript';
+import typescript from 'rollup-plugin-typescript2';
 import commonjs from '@rollup/plugin-commonjs';
 import fs from 'fs';
 import { config } from './config';
@@ -43,6 +43,8 @@ export function buildRollupOptions(
     // ...Object.keys(packageConfig.devDependencies || {}),
     // ...Object.keys(packageConfig.peerDependencies || {}),
     ...getPluginDirs().map((x) => `@plugins/${x}`),
+    '@capital/', // builtin dependencies prefix
+    ...config.extraDeps,
   ];
 
   function getFileNameWithoutExt(filepath: string) {
@@ -96,7 +98,7 @@ export function buildRollupOptions(
     },
     plugins: [
       typescript({
-        noResolve: true,
+        check: false,
         tsconfig: path.resolve(
           path.dirname(pluginPackageJsonPath),
           './tsconfig.json'

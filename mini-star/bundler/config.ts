@@ -6,6 +6,7 @@ const defaultConfig = {
   scope: 'plugins',
   pluginRoot: process.cwd(),
   outDir: path.resolve(process.cwd(), './dist'),
+  extraDeps: [] as string[],
   author: undefined,
   license: undefined,
 };
