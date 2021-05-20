@@ -85,7 +85,7 @@ export function buildRollupOptions(
   return {
     input: path.resolve(path.dirname(pluginPackageJsonPath), main),
     output: {
-      dir: path.resolve(process.cwd(), './dist/plugins', name),
+      dir: path.resolve(config.outDir, './plugins', name),
       format: 'amd',
       amd: {
         autoId: true,
@@ -95,7 +95,13 @@ export function buildRollupOptions(
       sourcemap: true,
     },
     plugins: [
-      typescript({ noResolve: true }),
+      typescript({
+        noResolve: true,
+        tsconfig: path.resolve(
+          path.dirname(pluginPackageJsonPath),
+          './tsconfig.json'
+        ),
+      }),
       resolve({ browser: true }),
       commonjs(),
       replaceId(),
