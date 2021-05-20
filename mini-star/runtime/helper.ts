@@ -216,7 +216,32 @@ export function definePlugin(
 }
 
 /**
+ * Register Dependency from capital
+ */
+export function regDependency(name: string, fn: () => Promise<Module>) {
+  if (loadedModules[name]) {
+    console.warn('[ministar] dup reg', name);
+  }
+  loadedModules[name] = {
+    status: 'init',
+    ins: null,
+    resolves: [],
+    entryFn: () => {
+      fn().then((module) => {
+        loadedModules[name].status = 'loaded';
+        loadedModules[name].ins = module;
+        loadedModules[name].resolves.forEach((resolve) => {
+          resolve(module);
+        });
+        loadedModules[name].resolves = [];
+      });
+    },
+  };
+}
+
+/**
  * Register Shared Module from capital.
+ * Its will auto try to add @capital before module name.
  */
 export function regSharedModule(name: string, fn: () => Promise<Module>) {
   if (
@@ -228,25 +253,5 @@ export function regSharedModule(name: string, fn: () => Promise<Module>) {
     name = `@capital/${name}`;
   }
 
-  if (loadedModules[name]) {
-    console.warn('dup reg', name);
-  }
-  loadedModules[name] = {
-    status: 'init',
-    ins: null,
-    resolves: [],
-    entryFn: () => {
-      fn().then((module) => {
-        module.hasOwnProperty = function (key: string) {
-          return !!module[key];
-        };
-        loadedModules[name].status = 'loaded';
-        loadedModules[name].ins = module;
-        loadedModules[name].resolves.forEach((resolve) => {
-          resolve(module);
-        });
-        loadedModules[name].resolves = [];
-      });
-    },
-  };
+  regDependency(name, fn);
 }
