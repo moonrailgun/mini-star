@@ -119,5 +119,6 @@ export function buildRollupOptions(
 
       return false;
     },
+    preserveEntrySignatures: 'strict',
   };
 }
