@@ -104,6 +104,7 @@ export function buildRollupOptions(
           './tsconfig.json'
         ),
       }),
+      ...(Array.isArray(config.rollupPlugins) ? config.rollupPlugins : []),
       resolve({ browser: true }),
       commonjs(),
       replaceId(),

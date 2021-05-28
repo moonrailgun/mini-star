@@ -9,6 +9,7 @@ const defaultConfig = {
   extraDeps: [] as string[],
   author: undefined,
   license: undefined,
+  rollupPlugins: [],
 };
 
 const configResult = explorer.search();
