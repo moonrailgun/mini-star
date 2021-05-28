@@ -45,6 +45,7 @@
     "ora": "^5.4.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.48.0",
+    "rollup-plugin-styles": "^3.14.1",
     "rollup-plugin-typescript2": "^0.30.0",
     "yargs": "^16.2.0"
   }

@@ -6,6 +6,7 @@ import fs from 'fs';
 import { config } from './config';
 import { RollupOptions, Plugin } from 'rollup';
 import { getPluginDirs } from './utils';
+import styles from "rollup-plugin-styles";
 
 // https://github.com/rollup/rollup/blob/master/docs/999-big-list-of-options.md
 
@@ -104,6 +105,7 @@ export function buildRollupOptions(
           './tsconfig.json'
         ),
       }),
+      styles(),
       ...(Array.isArray(config.rollupPlugins) ? config.rollupPlugins : []),
       resolve({ browser: true }),
       commonjs(),
