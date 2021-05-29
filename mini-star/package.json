@@ -1,6 +1,6 @@
 {
   "name": "mini-star",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "",
   "main": "./lib/runtime/index.js",
   "scripts": {
