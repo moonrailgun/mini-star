@@ -1,7 +1,7 @@
-import { rollup } from 'rollup';
+import { rollup, RollupWatcher, watch } from 'rollup';
 import { buildRollupOptions } from './rollup.config';
 
-export async function bundlePlugin(pluginPackageJsonPath: string) {
+export async function buildPlugin(pluginPackageJsonPath: string) {
   const options = buildRollupOptions(pluginPackageJsonPath);
   // Create a bundle
   const bundle = await rollup(options);
@@ -14,4 +14,12 @@ export async function bundlePlugin(pluginPackageJsonPath: string) {
   } else {
     await bundle.write(options.output);
   }
+}
+
+export function watchPlugin(pluginPackageJsonPath: string): RollupWatcher {
+  const options = buildRollupOptions(pluginPackageJsonPath);
+
+  const watcher = watch(options);
+
+  return watcher;
 }

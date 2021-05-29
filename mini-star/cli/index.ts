@@ -3,11 +3,10 @@
 import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
 import { createPluginTemplate } from './create-plugin';
-import path from 'path';
-import { bundlePlugin } from '../bundler/bundle';
+import { buildPlugin, watchPlugin } from '../bundler/bundle';
 import { getPluginDirs } from '../bundler/utils';
-import { config } from '../bundler/config';
 import ora from 'ora';
+import { getPluginPackagePath, getShortTimeStr } from './utils';
 
 yargs(hideBin(process.argv))
   .command(
@@ -31,17 +30,12 @@ yargs(hideBin(process.argv))
       const pluginName = argv['pluginName'] as string;
 
       async function bundleSinglePlugin(name: string) {
-        const pluginPackageJsonPath = path.resolve(
-          config.pluginRoot,
-          './plugins/',
-          name,
-          './package.json'
-        );
+        const pluginPackageJsonPath = getPluginPackagePath(name);
         const spinner = ora(`Building plugin [${name}]...`).start();
         const startTime = new Date().valueOf();
 
         try {
-          await bundlePlugin(pluginPackageJsonPath);
+          await buildPlugin(pluginPackageJsonPath);
           const usage = new Date().valueOf() - startTime;
           spinner.succeed(`Bundle [${name}] success in ${usage}ms!`);
         } catch (err) {
@@ -56,6 +50,41 @@ yargs(hideBin(process.argv))
         }
       } else {
         await bundleSinglePlugin(pluginName);
+      }
+    }
+  )
+  .command(
+    'watchPlugin <pluginName>',
+    'Build and watch Plugin',
+    () => {},
+    async (argv) => {
+      const pluginName = argv['pluginName'] as string;
+
+      async function watchSinglePlugin(name: string) {
+        const pluginPackageJsonPath = getPluginPackagePath(name);
+
+        const watcher = watchPlugin(pluginPackageJsonPath);
+
+        const spinner = ora({
+          prefixText: () => `[${getShortTimeStr()}]: [${name}] `,
+        });
+        watcher.on('event', (event) => {
+          if (event.code === 'BUNDLE_START') {
+            spinner.start(`Building ${event.output.join(',')}`);
+          } else if (event.code === 'BUNDLE_END') {
+            spinner.succeed(`Building Successful in ${event.duration}ms`);
+          } else if (event.code === 'ERROR') {
+            spinner.fail(`Build Error: ${event.error.message}`);
+          }
+        });
+      }
+
+      if (pluginName === 'all') {
+        for (const name of getPluginDirs()) {
+          await watchSinglePlugin(name);
+        }
+      } else {
+        await watchSinglePlugin(pluginName);
       }
     }
   )
