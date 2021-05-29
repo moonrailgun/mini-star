@@ -60,7 +60,7 @@ export function processModulePath(
 
   if (path.endsWith('.js') || path.startsWith('./')) {
     return trimDotOfPath(
-      baseModuleName + '/',
+      !baseModuleName.endsWith('.js') ? baseModuleName + '/' : baseModuleName,
       !path.endsWith('.js') ? `${path}.js` : path
     );
   }

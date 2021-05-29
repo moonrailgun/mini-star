@@ -13,7 +13,11 @@ describe('processModulePath', () => {
     ['./model', '@plugins/demo/model.js'],
     ['./model.js', '@plugins/demo/model.js'],
     ['@plugins/common', '@plugins/common'],
-  ])('%s', (input, output) => {
+  ])('%s => %s', (input, output) => {
     expect(processModulePath('@plugins/demo', input)).toBe(output);
   });
+
+  test('deep path', ()=> {
+    expect(processModulePath('@plugins/demo/index-353b8484.js', './index-4a4caf9c.js')).toBe('@plugins/demo/index-4a4caf9c.js')
+  })
 });
