@@ -31,7 +31,7 @@ module.exports = {
       items: [
         {
           type: 'doc',
-          docId: 'intro',
+          docId: 'tutorial/intro',
           position: 'left',
           label: 'Tutorial',
         },
@@ -55,7 +55,7 @@ module.exports = {
           items: [
             {
               label: 'Tutorial',
-              to: '/docs/intro',
+              to: '/docs/tutorial/intro',
             },
           ],
         },
@@ -102,12 +102,23 @@ module.exports = {
           // Please change this to your repo.
           // editUrl:
           //   'https://github.com/facebook/docusaurus/edit/master/website/',
+          remarkPlugins: [
+            [require('@docusaurus/remark-plugin-npm2yarn'), { sync: true }],
+          ],
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           // editUrl:
           //   'https://github.com/facebook/docusaurus/edit/master/website/blog/',
+          remarkPlugins: [
+            [require('@docusaurus/remark-plugin-npm2yarn'), { sync: true }],
+          ],
+        },
+        pages: {
+          remarkPlugins: [
+            [require('@docusaurus/remark-plugin-npm2yarn'), { sync: true }],
+          ],
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),

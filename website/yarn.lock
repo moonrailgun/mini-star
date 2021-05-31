@@ -1399,6 +1399,13 @@
   dependencies:
     prop-types "^15.6.2"
 
+"@docusaurus/remark-plugin-npm2yarn@^2.0.0-beta.0":
+  version "2.0.0-beta.0"
+  resolved "http://npm.gllue.net/@docusaurus%2fremark-plugin-npm2yarn/-/remark-plugin-npm2yarn-2.0.0-beta.0.tgz#5ccf899ed0ad468985eb0e17485d8dab4e1f65a7"
+  integrity sha1-XM+JntCtRomF6w4XSF2Nq04fZac=
+  dependencies:
+    npm-to-yarn "^1.0.1"
+
 "@docusaurus/theme-classic@2.0.0-beta.0":
   version "2.0.0-beta.0"
   resolved "http://npm.gllue.net/@docusaurus%2ftheme-classic/-/theme-classic-2.0.0-beta.0.tgz#0ad74264dc592590bd7d8a6f6327cb83bbabc665"
@@ -5826,6 +5833,11 @@ npm-run-path@^4.0.1:
   integrity sha1-t+zR5e1T2o43pV4cImnguX7XSOo=
   dependencies:
     path-key "^3.0.0"
+
+npm-to-yarn@^1.0.1:
+  version "1.0.1"
+  resolved "http://npm.gllue.net/npm-to-yarn/-/npm-to-yarn-1.0.1.tgz#6cdb95114c4ff0be50a7a2381d4d16131a5f52df"
+  integrity sha1-bNuVEUxP8L5Qp6I4HU0WExpfUt8=
 
 nprogress@^0.2.0:
   version "0.2.0"

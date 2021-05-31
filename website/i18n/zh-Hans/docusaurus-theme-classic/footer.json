@@ -33,7 +33,7 @@
   },
   "link.item.label.GitHub": {
     "message": "GitHub",
-    "description": "The label of footer link with label=GitHub linking to https://github.com/facebook/docusaurus"
+    "description": "The label of footer link with label=GitHub linking to https://github.com/moonrailgun/mini-star"
   },
   "copyright": {
     "message": "Copyright © 2021 My Project, Inc. Built with Docusaurus.",
