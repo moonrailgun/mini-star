@@ -39,3 +39,5 @@ The core goal of the microkernel is the same as that of the micro front end. It 
 - Shared dependencies, the same dependencies only need to be loaded once, reducing unnecessary volume and packaging time
 - Make dependency calls between plugins like calling native components
 - Packing based on `Rollup`, fast!
+- Born for the modern front end. In the past, we exposed methods through windows, now all our code needs to be compiled into modules, and exposure is also through modules
+- Topology relies on sorting to prevent timing problems
