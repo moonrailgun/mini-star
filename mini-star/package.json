@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/moonrailgun/mini-star#readme",
   "devDependencies": {
+    "@types/fs-extra": "^9.0.11",
     "@types/inquirer": "^7.3.1",
     "@types/jest": "^26.0.22",
     "@types/yargs": "^16.0.1",
@@ -41,6 +42,7 @@
     "@rollup/plugin-commonjs": "^19.0.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
     "cosmiconfig": "^7.0.0",
+    "fs-extra": "^9.1.0",
     "inquirer": "^8.1.0",
     "ora": "^5.4.0",
     "rimraf": "^3.0.2",

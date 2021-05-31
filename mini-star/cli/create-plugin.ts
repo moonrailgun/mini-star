@@ -1,9 +1,10 @@
 import inquirer from 'inquirer';
 import path from 'path';
-import fs from 'fs';
+import fs from 'fs-extra';
 import { config } from '../bundler/config';
 
 const pluginDir = path.resolve(config.pluginRoot, './plugins');
+fs.ensureDirSync(pluginDir);
 
 export async function createPluginTemplate() {
   const { pluginName, language, confirm } = await inquirer.prompt([

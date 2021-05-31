@@ -589,6 +589,13 @@
   resolved "http://npm.gllue.net/@types%2festree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
   integrity sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==
 
+"@types/fs-extra@^9.0.11":
+  version "9.0.11"
+  resolved "https://registry.npmjs.org/@types/fs-extra/-/fs-extra-9.0.11.tgz#8cc99e103499eab9f347dbc6ca4e99fb8d2c2b87"
+  integrity sha512-mZsifGG4QeQ7hlkhO56u7zt/ycBgGxSVsFI/6lGTU34VtwkiqrrSDgw0+ygs8kFGWcXnFQWMrzF2h7TtDFNixA==
+  dependencies:
+    "@types/node" "*"
+
 "@types/graceful-fs@^4.1.2":
   version "4.1.5"
   resolved "https://registry.npmjs.org/@types/graceful-fs/-/graceful-fs-4.1.5.tgz#21ffba0d98da4350db64891f92a9e5db3cdb4e15"
