@@ -90,7 +90,7 @@ module.exports = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} moonrailgun, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} moonrailgun. Built with Docusaurus.`,
     },
   },
   presets: [
