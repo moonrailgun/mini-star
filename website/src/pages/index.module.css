@@ -23,3 +23,9 @@
   align-items: center;
   justify-content: center;
 }
+
+.headerCommand {
+  margin: auto;
+  margin-top: 1rem;
+  max-width: 24rem;
+}

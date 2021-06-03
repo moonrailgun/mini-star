@@ -1,9 +1,17 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable @typescript-eslint/no-var-requires */
 import React from 'react';
 import clsx from 'clsx';
 import Translate, { translate } from '@docusaurus/Translate';
 import styles from './HomepageFeatures.module.css';
 
-const FeatureList = [
+interface FeatureItemType {
+  title: string;
+  description: React.ReactNode;
+  Svg: React.ElementType;
+}
+
+const FeatureList: FeatureItemType[] = [
   {
     title: translate({
       message: 'Start with MiniStar',
@@ -53,19 +61,18 @@ const FeatureList = [
   },
 ];
 
-function Feature({ Svg, title, description }) {
-  return (
-    <div className={clsx('col col--4')}>
-      <div className="text--center">
-        <Svg className={styles.featureSvg} alt={title} />
-      </div>
-      <div className="text--center padding-horiz--md">
-        <h3>{title}</h3>
-        <p>{description}</p>
-      </div>
+const Feature: React.FC<FeatureItemType> = ({ Svg, title, description }) => (
+  <div className={clsx('col col--4')}>
+    <div className="text--center">
+      <Svg className={styles.featureSvg} alt={title} />
     </div>
-  );
-}
+    <div className="text--center padding-horiz--md">
+      <h3>{title}</h3>
+      <p>{description}</p>
+    </div>
+  </div>
+);
+Feature.displayName = 'Feature';
 
 export default function HomepageFeatures() {
   return (
