@@ -1,36 +1,54 @@
 import React from 'react';
 import clsx from 'clsx';
+import Translate, { translate } from '@docusaurus/Translate';
 import styles from './HomepageFeatures.module.css';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
-    Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
+    title: translate({
+      message: 'Start with MiniStar',
+    }),
+    Svg: require('../../static/img/undraw_Dev_focus_re_6iwt.svg').default,
     description: (
-      <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
-      </>
+      <Translate
+        id="homepage.feature1"
+        values={{ title: <code>MiniStar</code> }}
+      >
+        {
+          'Start your project with {title} or inject it in existed project. Its Progressive!'
+        }
+      </Translate>
     ),
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
+    title: translate({
+      message: 'Pluginize your Project',
+    }),
+    Svg: require('../../static/img/undraw_Mobile_marketing_re_p77p.svg')
+      .default,
     description: (
-      <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
-      </>
+      <Translate id="homepage.feature2">
+        Decoupling is very important part for Engineering. Dynamic code help you
+        split your project, so its can independent development and independent
+        deployment.
+      </Translate>
     ),
   },
   {
-    title: 'Powered by React',
-    Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
+    title: translate({
+      message: 'For Any Framework',
+    }),
+    Svg: require('../../static/img/undraw_JavaScript_frameworks_8qpc.svg')
+      .default,
     description: (
-      <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
-      </>
+      <Translate
+        id="homepage.feature3"
+        values={{ title: <code>MiniStar</code> }}
+      >
+        {
+          '{title} is Frame-independent framework, whether react, vue, svelte, jquery, or angular. You can feel free and at ease for that: its create for modern web project.'
+        }
+      </Translate>
     ),
   },
 ];

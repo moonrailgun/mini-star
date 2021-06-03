@@ -154,5 +154,23 @@
   "theme.common.skipToMainContent": {
     "message": "跳到主要内容",
     "description": "The skip to content label used for accessibility, allowing to rapidly navigate to main content with keyboard tab/enter navigation"
+  },
+  "homepage.feature1": {
+    "message": "使用 {title} 来开始您的项目或将其注入现有项目。她是渐进式的！"
+  },
+  "homepage.feature2": {
+    "message": "解耦是对工程非常重要的一部分。通过动态代码来帮助您拆分项目，使其可以独立开发和独立部署。"
+  },
+  "homepage.feature3": {
+    "message": "{title} 是一个框架无关的框架，无论是 react、vue、svelte、jquery 还是 angular。 您可以为此安心: 它为现代 Web 项目而创建。"
+  },
+  "Start with MiniStar": {
+    "message": "从 Ministar 开始"
+  },
+  "Pluginize your Project": {
+    "message": "插件化您的项目"
+  },
+  "For Any Framework": {
+    "message": "框架无关"
   }
 }

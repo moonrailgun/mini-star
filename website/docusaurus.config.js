@@ -106,15 +106,16 @@ module.exports = {
             [require('@docusaurus/remark-plugin-npm2yarn'), { sync: true }],
           ],
         },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          // editUrl:
-          //   'https://github.com/facebook/docusaurus/edit/master/website/blog/',
-          remarkPlugins: [
-            [require('@docusaurus/remark-plugin-npm2yarn'), { sync: true }],
-          ],
-        },
+        blog: false,
+        // blog: {
+        //   showReadingTime: true,
+        //   // Please change this to your repo.
+        //   // editUrl:
+        //   //   'https://github.com/facebook/docusaurus/edit/master/website/blog/',
+        //   remarkPlugins: [
+        //     [require('@docusaurus/remark-plugin-npm2yarn'), { sync: true }],
+        //   ],
+        // },
         pages: {
           remarkPlugins: [
             [require('@docusaurus/remark-plugin-npm2yarn'), { sync: true }],

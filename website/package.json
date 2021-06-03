@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
-    "start": "docusaurus start -p 3400",
-    "start:zh": "docusaurus start -p 3400 --locale zh-Hans",
+    "start": "docusaurus start -p 3400 --no-open",
+    "start:zh": "docusaurus start -p 3400 --locale zh-Hans --no-open",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",

@@ -28,4 +28,4 @@ npx ministar createPlugin
     └── tsconfig.json
 ```
 
-一个最简单的插件完成了，以 `index.ts` 为入口开始你的插件之旅
+一个最简单的插件完成了，让我们以 `index.ts` 为入口开始你的插件之旅
