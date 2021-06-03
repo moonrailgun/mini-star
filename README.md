@@ -1,8 +1,9 @@
-# plugin-template
+# MiniStar
 
-一个前端微内核(插件化架构)的实践模板项目
+A framework which can help your project pluginize.
 
-特殊标识
+Special Mark:
+- `@capital/*` Base project exported dependencies
+- `@plugins/*` Plugin project exported dependencies
 
-- `@capital/*` 基座项目导出的代码
-- `@plugins/*` 插件导出的代码
+For more detail, check document: [https://ministar.moonrailgun.com/](https://ministar.moonrailgun.com/)
