@@ -1,0 +1,14 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorial.category.Quick Start": {
+    "message": "快速上手",
+    "description": "The label for category Quick Start in sidebar tutorial"
+  },
+  "sidebar.tutorial.category.Guide": {
+    "message": "引导手册",
+    "description": "The label for category Guide in sidebar tutorial"
+  }
+}
