@@ -11,5 +11,5 @@
     "moduleResolution": "node",
     "rootDir": "."
   },
-  "exclude": ["node_modules", "**/__tests__/**"]
+  "exclude": ["node_modules", "lib", "**/__tests__/**"]
 }
