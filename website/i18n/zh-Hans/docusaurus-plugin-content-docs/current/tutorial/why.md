@@ -37,7 +37,3 @@ sidebar_position: 3
 而`MiniStar`的最小组合单位是模块。
 
 `MiniStar`更加符合现代前端的模块思想，而且不会对现有的代码习惯造成影响。
-
-## MiniStar的icon是谁设计的
-
-我在`iconfont`上随便找的。

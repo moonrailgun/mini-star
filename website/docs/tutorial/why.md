@@ -37,7 +37,3 @@ But the smallest combination unit of `requirejs` is file
 The smallest unit of `MiniStar` is a module.
 
 `MiniStar` is more in line with modern front-end module ideas, and will not affect existing code habits.
-
-## Who designed MiniStar's icon
-
-I found it on `iconfont`.
