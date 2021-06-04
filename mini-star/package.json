@@ -5,7 +5,8 @@
   "main": "./lib/runtime/index.js",
   "scripts": {
     "build": "rimraf ./lib/**/*.d.ts && tsc",
-    "prepublish": "yarn build",
+    "crlf": "npx crlf --set=LF ./lib/**/*.js",
+    "prepublish": "yarn build && yarn crlf",
     "release": "yarn publish --patch",
     "test": "jest"
   },

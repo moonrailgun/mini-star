@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Intro
 
-`mini-star` is a front-end library for the realization of the project's micro-kernel, which aims to help you build a production-usable micro-kernel (plug-in) architecture system more simply and painlessly.
+`mini-star` is a front-end library for the realization of the project's micro-kernel(pluginize), which aims to help you build(or migrate to) a production-usable micro-kernel (plug-in) architecture system more simply and painlessly.
 
 <!-- 抄自: https://segmentfault.com/a/1190000016862735 -->
 
@@ -41,3 +41,8 @@ The core goal of the microkernel is the same as that of the micro front end. It 
 - Packing based on `Rollup`, fast!
 - Born for the modern front end. In the past, we exposed methods through windows, now all our code needs to be compiled into modules, and exposure is also through modules
 - Topology relies on sorting to prevent timing problems
+
+## Document
+
+- [Official](https://ministar.moonrailgun.com/)
+- [Github](https://github.com/moonrailgun/mini-star)

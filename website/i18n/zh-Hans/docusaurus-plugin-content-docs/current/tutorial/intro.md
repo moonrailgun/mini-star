@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # 介绍
 
-`mini-star` 是一个为实现项目微内核前端库，旨在帮助大家能更简单、无痛的构建一个生产可用微内核(插件化)架构系统。
+`mini-star` 是一个为实现项目微内核(插件化)前端库，旨在帮助大家能更简单、无痛的构建(或改造成)一个生产可用微内核(插件化)架构系统。
 
 ## 什么是微内核
 
@@ -39,3 +39,8 @@ sidebar_position: 1
 - 基于 `Rollup` 进行打包，快！
 - 为现代前端而生。在过去，我们通过window暴露方法，现在我们所有的代码都需要编译成模块，而暴露也通过模块
 - 拓扑依赖排序，防止时序性的问题。
+
+## 文档
+
+- [官方文档](https://ministar.moonrailgun.com/)
+- [Github](https://github.com/moonrailgun/mini-star)
