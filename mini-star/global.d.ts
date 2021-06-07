@@ -1,3 +1,5 @@
+declare module '@rollup/plugin-url';
+
 declare namespace ministar {
   type ModuleStatus = 'new' | 'init' | 'loading' | 'loaded';
 

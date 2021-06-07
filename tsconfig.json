@@ -16,5 +16,5 @@
     },
     "typeRoots": ["node_modules/@types", "plugins/*/typings"]
   },
-  "exclude": ["node_modules", "**/__tests__/*"]
+  "exclude": ["node_modules", "**/__tests__/*", "website"]
 }

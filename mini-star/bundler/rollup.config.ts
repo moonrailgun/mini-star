@@ -6,7 +6,8 @@ import fs from 'fs';
 import { config } from './config';
 import { RollupOptions, Plugin } from 'rollup';
 import { getPluginDirs } from './utils';
-import styles from "rollup-plugin-styles";
+import styles from 'rollup-plugin-styles';
+import url from '@rollup/plugin-url';
 
 // https://github.com/rollup/rollup/blob/master/docs/999-big-list-of-options.md
 
@@ -106,6 +107,7 @@ export function buildRollupOptions(
         ),
       }),
       styles(),
+      url(),
       ...(Array.isArray(config.rollupPlugins) ? config.rollupPlugins : []),
       resolve({ browser: true }),
       commonjs(),
