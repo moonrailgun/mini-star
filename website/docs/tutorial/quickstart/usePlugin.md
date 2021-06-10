@@ -51,3 +51,7 @@ Console Output:
 - The third line comes from the callback when the dock project plug-in is loaded
 
 As you can see, we simply added the plug-in function to an existing project. `mini-star` is so simple!
+
+## Special Mark
+- `@capital/*` Base project exported dependencies
+- `@plugins/*` Plugin project exported dependencies

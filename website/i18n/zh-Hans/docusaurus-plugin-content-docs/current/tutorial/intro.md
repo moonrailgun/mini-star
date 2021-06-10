@@ -44,3 +44,4 @@ sidebar_position: 1
 
 - [官方文档](https://ministar.moonrailgun.com/)
 - [Github](https://github.com/moonrailgun/mini-star)
+- [微内核架构在大型前端系统中的应用（微前端）](https://segmentfault.com/a/1190000016862735)
