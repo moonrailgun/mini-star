@@ -23,5 +23,5 @@ import('/path/to/other/logic').then(() => {
 
 ### Asynchronous component
 
-If you are using a UI framework such as `React`, you can use a dynamically loaded asynchronous component belt instead of the original direct introduction.
+If you are using a UI framework such as `React`, you can use a dynamically loaded asynchronous component to instead of the original direct introduction.
 - [@loadable/component](https://www.npmjs.com/package/@loadable/component)

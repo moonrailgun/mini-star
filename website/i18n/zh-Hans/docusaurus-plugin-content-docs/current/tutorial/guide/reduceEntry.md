@@ -22,5 +22,5 @@ import('/path/to/other/logic').then(() => {
 
 ### 异步组件
 
-如果使用的是`React`这样的UI框架，可以使用动态加载的异步组件带代替原来的直接引入。
+如果使用的是`React`这样的UI框架，可以使用动态加载的异步组件来代替原来的直接引入。
 - [@loadable/component](https://www.npmjs.com/package/@loadable/component)
