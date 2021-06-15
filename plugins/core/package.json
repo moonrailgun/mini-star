@@ -1,4 +1,4 @@
 {
-  "name": "@template/core",
+  "name": "@plugins/core",
   "main": "src/index.ts"
 }

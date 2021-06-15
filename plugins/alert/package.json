@@ -1,5 +1,5 @@
 {
-  "name": "@template/alert",
+  "name": "@plugins/alert",
   "main": "src/index.ts",
   "version": "0.0.0",
   "dependencies": {
