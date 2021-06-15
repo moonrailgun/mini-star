@@ -1,9 +1,11 @@
-const _plugins: Record<string, ministar.Plugin> = {};
+import type { GlobalConfig, Plugin } from './types';
+
+const _plugins: Record<string, Plugin> = {};
 let _pluginUrlPrefix = '/plugins/';
 let _pluginUrlBuilder = (pluginName: string) =>
   `/plugins/${pluginName}/index.js`;
 
-export function applyConfig(config: ministar.GlobalConfig) {
+export function applyConfig(config: GlobalConfig) {
   if (typeof config.pluginUrlPrefix === 'string') {
     _pluginUrlPrefix = config.pluginUrlPrefix;
   }
@@ -16,7 +18,7 @@ export function applyConfig(config: ministar.GlobalConfig) {
 /**
  * get all pluginList
  */
-export function getPluginList(): Record<string, ministar.Plugin> {
+export function getPluginList(): Record<string, Plugin> {
   return _plugins;
 }
 

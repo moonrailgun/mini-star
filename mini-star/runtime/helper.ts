@@ -3,6 +3,7 @@ import {
   getPluginUrlBuilder,
   getPluginUrlPrefix,
 } from './config';
+import type { Module, ModuleLoader } from './types';
 import {
   createNewModuleLoader,
   getPluginName,
@@ -10,9 +11,6 @@ import {
   processModulePath,
   setModuleLoaderLoaded,
 } from './utils';
-
-type Module = ministar.Module;
-type ModuleLoader = ministar.ModuleLoader;
 
 interface LoadedModuleMap {
   [key: string]: ModuleLoader;

@@ -1,3 +1,4 @@
+import './types';
 import './init';
 
 export { initMiniStar, loadSinglePlugin, loadPluginList } from './loader';

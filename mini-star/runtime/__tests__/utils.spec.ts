@@ -17,7 +17,12 @@ describe('processModulePath', () => {
     expect(processModulePath('@plugins/demo', input)).toBe(output);
   });
 
-  test('deep path', ()=> {
-    expect(processModulePath('@plugins/demo/index-353b8484.js', './index-4a4caf9c.js')).toBe('@plugins/demo/index-4a4caf9c.js')
-  })
+  test('deep path', () => {
+    expect(
+      processModulePath(
+        '@plugins/demo/index-353b8484.js',
+        './index-4a4caf9c.js'
+      )
+    ).toBe('@plugins/demo/index-4a4caf9c.js');
+  });
 });

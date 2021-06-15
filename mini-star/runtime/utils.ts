@@ -1,8 +1,10 @@
+import { Module, ModuleLoader } from './types';
+
 /**
  * Create blank ModuleLoader
  * @returns A new ModuleLoader
  */
-export function createNewModuleLoader(): ministar.ModuleLoader {
+export function createNewModuleLoader(): ModuleLoader {
   return {
     resolves: [],
     status: 'new',
@@ -15,8 +17,8 @@ export function createNewModuleLoader(): ministar.ModuleLoader {
  * Set module loader status to `loaded`
  */
 export function setModuleLoaderLoaded(
-  moduleLoader: ministar.ModuleLoader,
-  moduleExport: ministar.Module | null
+  moduleLoader: ModuleLoader,
+  moduleExport: Module | null
 ) {
   moduleLoader.status = 'loaded';
   moduleLoader.ins = moduleExport;

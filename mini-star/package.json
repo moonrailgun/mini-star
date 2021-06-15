@@ -15,8 +15,7 @@
     "mini-star": "./lib/cli/index.js"
   },
   "files": [
-    "lib/",
-    "global.d.ts"
+    "lib/"
   ],
   "keywords": [
     "micro-service",
