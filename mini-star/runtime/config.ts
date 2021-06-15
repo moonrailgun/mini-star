@@ -34,6 +34,6 @@ export function getPluginUrlPrefix(): string {
  * @default
  * (pluginName) => `/plugins/${pluginName}/index.js`
  */
-export function getPluginUrlBuilder(pluginName: string): string {
+export function getFallbackPluginUrl(pluginName: string): string {
   return _pluginUrlBuilder(pluginName);
 }

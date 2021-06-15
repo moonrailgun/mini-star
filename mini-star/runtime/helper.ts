@@ -1,6 +1,6 @@
 import {
   getPluginList,
-  getPluginUrlBuilder,
+  getFallbackPluginUrl,
   getPluginUrlPrefix,
 } from './config';
 import type { Module, ModuleLoader } from './types';
@@ -98,7 +98,16 @@ async function loadDependency(dep: string): Promise<any> {
         return;
       }
 
-      dep = getPluginUrlBuilder(pluginName);
+      const pluginInfo = getPluginList()[pluginName];
+
+      /**
+       * Try to load plugin:
+       * 1. try to get plugin url in plugin list.
+       * 2. if url not define or this plugin is implicit dependency
+       *  (require by other plugin but not define in main repo)
+       *  get fallback plugin url with function.
+       */
+      dep = pluginInfo?.url ?? getFallbackPluginUrl(pluginName);
     } else if (!dep.endsWith('.js') && !dep.startsWith('./')) {
       console.error(
         `[${dep}] Looks like is builtin module, and its cannot load as remote script.`

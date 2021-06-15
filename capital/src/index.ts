@@ -8,7 +8,7 @@ const pluginList = [
   'core',
 ].map((name) => ({
   name,
-  url: `/plugins/${name}/index.js`,
+  url: `/plugins/${name}/index.js?v=1`,
 }));
 
 regSharedModule('@capital/shared', () => import('./shared'));
