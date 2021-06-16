@@ -9,7 +9,8 @@
     "allowJs": false,
     "strict": true,
     "moduleResolution": "node",
-    "rootDir": "."
+    "rootDir": ".",
+    "typeRoots": ["./types", "./node_modules/@types"]
   },
   "exclude": ["node_modules", "lib", "**/__tests__/**"]
 }

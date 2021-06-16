@@ -11,9 +11,9 @@
     "clean": "lerna run clean && jest --clearCache",
     "build": "webpack",
     "dev": "webpack serve",
-    "plugin:new": "ts-node -P tsconfig.node.json mini-star/cli/index.ts createPlugin",
-    "plugin:build": "rm -rf ./dist/plugins && node ./mini-star/lib/cli/index.js buildPlugin all",
-    "plugin:watch": "rm -rf ./dist/plugins && ts-node -P tsconfig.node.json ./mini-star/cli/index.ts watchPlugin all",
+    "plugin:new": "ts-node -P ./mini-star/tsconfig.json mini-star/cli/index.ts createPlugin",
+    "plugin:build": "rm -rf ./dist/plugins && ts-node -P ./mini-star/tsconfig.json mini-star/cli/index.ts buildPlugin all",
+    "plugin:watch": "rm -rf ./dist/plugins && ts-node -P ./mini-star/tsconfig.json mini-star/cli/index.ts watchPlugin all",
     "lint": "eslint './**/*.{ts,tsx}'",
     "lint:fix": "eslint --fix './**/*.{ts,tsx}'",
     "test": "jest"
