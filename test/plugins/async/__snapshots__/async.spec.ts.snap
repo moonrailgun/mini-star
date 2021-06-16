@@ -1,27 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`plugin: simple Should build async plugin: /plugins/demo/async-41b6682c.js 1`] = `
-"definePlugin('@plugins/demo/async-41b6682c.js', function () { 'use strict';
+exports[`plugin: simple Should build async plugin: /plugins/demo/async-5631a60a.js 1`] = `
+"definePlugin('@plugins/demo/async-5631a60a.js', function () { 'use strict';
 
-	console.log('load async');
+	console.log(\\"load async\\");
 
 });
-//# sourceMappingURL=async-41b6682c.js.map
+//# sourceMappingURL=async-5631a60a.js.map
 "
 `;
 
-exports[`plugin: simple Should build async plugin: /plugins/demo/async-41b6682c.js.map 1`] = `"{\\"version\\":3,\\"file\\":\\"async-41b6682c.js\\",\\"sources\\":[\\"../../../plugins/demo/src/async.ts\\"],\\"sourcesContent\\":[\\"console.log('load async');\\\\n\\\\nexport {};\\\\n\\"],\\"names\\":[],\\"mappings\\":\\";;CAAA,OAAO,CAAC,GAAG,CAAC,YAAY,CAAC;;;;;;\\"}"`;
+exports[`plugin: simple Should build async plugin: /plugins/demo/async-5631a60a.js.map 1`] = `"{\\"version\\":3,\\"file\\":\\"async-5631a60a.js\\",\\"sources\\":[\\"../../../plugins/demo/src/async.ts\\"],\\"sourcesContent\\":[\\"console.log('load async');\\\\n\\\\nexport {};\\\\n\\"],\\"names\\":[],\\"mappings\\":\\";;CAAA,QAAQ,IAAI;;;;;;\\"}"`;
 
 exports[`plugin: simple Should build async plugin: /plugins/demo/index.js 1`] = `
 "definePlugin('@plugins/demo', ['require'], function (require) { 'use strict';
 
-    new Promise(function (resolve, reject) { require(['./async-41b6682c'], resolve, reject) }).then(function () {
-        console.log('Hello World!');
-    });
+  new Promise(function (resolve, reject) { require(['./async-5631a60a'], resolve, reject) }).then(() => {
+    console.log(\\"Hello World!\\");
+  });
 
 });
 //# sourceMappingURL=index.js.map
 "
 `;
 
-exports[`plugin: simple Should build async plugin: /plugins/demo/index.js.map 1`] = `"{\\"version\\":3,\\"file\\":\\"index.js\\",\\"sources\\":[\\"../../../plugins/demo/src/index.ts\\"],\\"sourcesContent\\":[\\"import('./async').then(() => {\\\\n  console.log('Hello World!');\\\\n});\\\\n\\"],\\"names\\":[],\\"mappings\\":\\";;AAAA,sDAAO,kBAAS,sBAAC,CAAC,IAAI,CAAC;QACrB,OAAO,CAAC,GAAG,CAAC,cAAc,CAAC,CAAC;IAC9B,CAAC,CAAC;;;;;;\\"}"`;
+exports[`plugin: simple Should build async plugin: /plugins/demo/index.js.map 1`] = `"{\\"version\\":3,\\"file\\":\\"index.js\\",\\"sources\\":[\\"../../../plugins/demo/src/index.ts\\"],\\"sourcesContent\\":[\\"import('./async').then(() => {\\\\n  console.log('Hello World!');\\\\n});\\\\n\\"],\\"names\\":[],\\"mappings\\":\\";;AAAA,oDAAO,yCAAW,KAAK,MAAM;EAC3B,UAAQ,IAAI;EAAA;;;;;;\\"}"`;

@@ -1,5 +1,5 @@
 {
-  "name": "@template/demo",
+  "name": "@plugins/demo",
   "main": "src/index.ts",
   "private": true
 }

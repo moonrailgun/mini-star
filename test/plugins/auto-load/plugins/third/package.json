@@ -1,5 +1,5 @@
 {
-  "name": "@template/third",
+  "name": "@plugins/third",
   "main": "src/index.ts",
   "private": true
 }
