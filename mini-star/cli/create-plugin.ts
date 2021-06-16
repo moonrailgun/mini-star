@@ -81,19 +81,22 @@ export async function createPluginTemplate() {
     path.resolve(pluginDir, pluginName, entryFileName),
     'console.log("Hello World!")'
   );
-  fs.writeFileSync(
-    path.resolve(pluginDir, pluginName, 'tsconfig.json'),
-    JSON.stringify(
-      {
-        compilerOptions: {
-          rootDir: './src',
-          baseUrl: './src',
+
+  if (language === 'ts') {
+    fs.writeFileSync(
+      path.resolve(pluginDir, pluginName, 'tsconfig.json'),
+      JSON.stringify(
+        {
+          compilerOptions: {
+            rootDir: './src',
+            baseUrl: './src',
+          },
         },
-      },
-      null,
-      2
-    )
-  );
+        null,
+        2
+      )
+    );
+  }
 
   console.log(
     `Plugin [${pluginName}] create completed: ${path.resolve(

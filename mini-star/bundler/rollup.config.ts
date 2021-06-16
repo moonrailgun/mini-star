@@ -1,6 +1,5 @@
 import path from 'path';
 import resolve from '@rollup/plugin-node-resolve';
-import typescript from 'rollup-plugin-typescript2';
 import commonjs from '@rollup/plugin-commonjs';
 import fs from 'fs';
 import { config } from './config';
@@ -8,6 +7,7 @@ import { RollupOptions, Plugin } from 'rollup';
 import { getPluginDirs } from './utils';
 import styles from 'rollup-plugin-styles';
 import url from '@rollup/plugin-url';
+import esbuild from 'rollup-plugin-esbuild';
 
 // https://github.com/rollup/rollup/blob/master/docs/999-big-list-of-options.md
 
@@ -99,8 +99,13 @@ export function buildRollupOptions(
       sourcemap: true,
     },
     plugins: [
-      typescript({
-        check: false,
+      esbuild({
+        // https://www.npmjs.com/package/rollup-plugin-esbuild
+        // All options are optional
+        include: /\.[jt]sx?$/, // default, inferred from `loaders` option
+        exclude: /node_modules/, // default
+        sourceMap: true,
+        minify: process.env.NODE_ENV === 'production',
         tsconfig: path.resolve(
           path.dirname(pluginPackageJsonPath),
           './tsconfig.json'

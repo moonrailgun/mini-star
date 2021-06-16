@@ -43,13 +43,14 @@
     "@rollup/plugin-node-resolve": "^13.0.0",
     "@rollup/plugin-url": "^6.0.0",
     "cosmiconfig": "^7.0.0",
+    "esbuild": "^0.12.9",
     "fs-extra": "^9.1.0",
     "inquirer": "^8.1.0",
     "ora": "^5.4.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.48.0",
+    "rollup-plugin-esbuild": "^4.5.0",
     "rollup-plugin-styles": "^3.14.1",
-    "rollup-plugin-typescript2": "^0.30.0",
     "yargs": "^16.2.0"
   }
 }
