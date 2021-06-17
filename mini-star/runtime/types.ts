@@ -13,7 +13,7 @@ export interface Plugin {
   /**
    * Plugin Url
    */
-  url?: string;
+  url: string;
 }
 
 export interface Module {
