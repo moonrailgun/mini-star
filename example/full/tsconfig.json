@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ES6",
+    "allowJs": false,
+    "strict": true,
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "@capital/*": ["./src/*"],
+      "@plugins/*": ["./plugins/*"]
+    },
+  }
+}

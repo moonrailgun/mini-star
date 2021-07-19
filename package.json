@@ -9,8 +9,6 @@
     "prepare": "husky install",
     "postinstall": "yarn run bootstrap",
     "clean": "lerna run clean && jest --clearCache",
-    "build": "webpack",
-    "dev": "webpack serve",
     "plugin:new": "ts-node -P ./mini-star/tsconfig.json mini-star/cli/index.ts createPlugin",
     "plugin:build": "rm -rf ./dist/plugins && ts-node -P ./mini-star/tsconfig.json mini-star/cli/index.ts buildPlugin all",
     "plugin:watch": "rm -rf ./dist/plugins && ts-node -P ./mini-star/tsconfig.json mini-star/cli/index.ts watchPlugin all",
