@@ -18,7 +18,7 @@ initMiniStar({
   plugins: [
     {
       name: 'test',
-      url: '/plugins/test/index.js',
+      url: '/plugins/test/index.js', // NOTICE: 请确保该地址可以被访问
     },
   ],
 }).then(() => {

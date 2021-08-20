@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # 创建插件
 
-我们可以通过`cli`快速创建一个新的插件。
+我们可以通过`cli`快速创建一个新的插件。
 
 ```bash
 npx ministar createPlugin
@@ -29,3 +29,17 @@ npx ministar createPlugin
 ```
 
 一个最简单的插件完成了，让我们以 `index.ts` 为入口开始你的插件之旅
+
+## 编译插件
+
+为了使插件能够被正确加载, 每次修改好之后别忘了使用ministar编译插件代码。默认会被打包输出到当前目录的`dist/plugins`目录下。
+
+你也可以通过修改配置文件的 [outDir](../guide/ministarrc#outdir) 来修改输出。
+
+```bash
+npx ministar buildPlugin test
+
+# or
+
+npx ministar buildPlugin all
+```
