@@ -8,6 +8,7 @@ import { getPluginDirs } from './utils';
 import styles from 'rollup-plugin-styles';
 import url from '@rollup/plugin-url';
 import esbuild from 'rollup-plugin-esbuild';
+import json from '@rollup/plugin-json';
 
 // https://github.com/rollup/rollup/blob/master/docs/999-big-list-of-options.md
 
@@ -102,6 +103,7 @@ export function buildRollupOptions(
       }),
       styles(),
       url(),
+      json(),
       ...(Array.isArray(config.rollupPlugins) ? config.rollupPlugins : []),
       resolve({ browser: true }),
       commonjs(),
