@@ -6,7 +6,7 @@ const defaultConfig = {
   scope: 'plugins',
   pluginRoot: process.cwd(),
   outDir: path.resolve(process.cwd(), './dist'),
-  extraDeps: [] as string[],
+  externalDeps: [] as string[],
   author: undefined,
   license: undefined,
   rollupPlugins: [],

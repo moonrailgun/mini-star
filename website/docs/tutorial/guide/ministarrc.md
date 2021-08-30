@@ -33,11 +33,11 @@ Default: `path.resolve(process.cwd(), './dist')`
 
 The output directory of the ministar bundler
 
-### extraDeps
+### externalDeps
 
 Default: `[]`
 
-For additional dependencies, `MiniStar` will automatically consider the dependencies marked in the `packag.json` file in the current directory and the dependencies beginning with `@capital/` as public dependencies, and will not be packaged during plug-in packaging. If you need additional dependencies, please add here
+External dependencies, the values appearing in this array will not be packaged by the packaging tool.
 
 ### author
 

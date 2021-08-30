@@ -34,11 +34,11 @@ sidebar_position: 3
 
 插件打包的输出目录
 
-### extraDeps
+### externalDeps
 
 默认值: `[]`
 
-额外依赖，`MiniStar`会自动将当前目录的`packag.json`文件中标注的依赖与以`@capital/`开头的依赖视为公共依赖，在进行插件打包时不会打包进去。如果需要额外的依赖，请在此处添加
+外部依赖, 在这个数组中出现的值将不会被打包工具打包进去。
 
 ### author
 
