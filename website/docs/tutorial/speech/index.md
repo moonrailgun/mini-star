@@ -4,4 +4,4 @@ sidebar_position: 1
 
 # Index
 
-- [Intro(chinese)](/speech/intro)
+- <a href="/speech/intro" target="_blank">Intro(chinese)</a>
