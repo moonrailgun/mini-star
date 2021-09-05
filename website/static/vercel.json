@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/speech/(.*?)/(.*)", "destination": "/speech/$1/index.html" }
+    { "source": "/speech/intro/(.*)", "destination": "/speech/intro/index.html" }
   ]
 }
