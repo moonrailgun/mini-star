@@ -5,6 +5,7 @@ class: text-center
 highlighter: shiki
 lineNumbers: false
 routerMode: 'hash'
+monaco: true # default "dev"
 info: >
   ## Mini-star
 
