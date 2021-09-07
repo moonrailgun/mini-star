@@ -3,7 +3,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import fs from 'fs';
 import { config } from './config';
-import { RollupOptions, Plugin } from 'rollup';
+import { RollupOptions, Plugin as RollupPlugin } from 'rollup';
 import { getPluginDirs } from './utils';
 import styles from 'rollup-plugin-styles';
 import url from '@rollup/plugin-url';
@@ -39,6 +39,31 @@ export function buildRollupOptions(
     ...config.externalDeps,
   ];
 
+  let plugins: RollupPlugin[] = [
+    esbuild({
+      // https://www.npmjs.com/package/rollup-plugin-esbuild
+      // All options are optional
+      include: /\.[jt]sx?$/, // default, inferred from `loaders` option
+      exclude: /node_modules/, // default
+      sourceMap: true,
+      minify: process.env.NODE_ENV === 'production',
+      tsconfig: path.resolve(
+        path.dirname(pluginPackageJsonPath),
+        './tsconfig.json'
+      ),
+    }),
+    styles(),
+    url(),
+    json(),
+    ...(Array.isArray(config.rollupPlugins) ? config.rollupPlugins : []),
+    resolve({ browser: true }),
+    commonjs(),
+    replaceId(),
+  ];
+  if (typeof config.buildRollupPlugins === 'function') {
+    plugins = config.buildRollupPlugins(plugins);
+  }
+
   function getFileNameWithoutExt(filepath: string) {
     return path.basename(filepath).split('.')[0];
   }
@@ -46,7 +71,7 @@ export function buildRollupOptions(
   /**
    * reset AMD id to uniq with `pluginName/fileName`
    */
-  function replaceId(): Plugin {
+  function replaceId(): RollupPlugin {
     return {
       name: 'replace',
       generateBundle(options, bundle) {
@@ -88,27 +113,7 @@ export function buildRollupOptions(
       },
       sourcemap: true,
     },
-    plugins: [
-      esbuild({
-        // https://www.npmjs.com/package/rollup-plugin-esbuild
-        // All options are optional
-        include: /\.[jt]sx?$/, // default, inferred from `loaders` option
-        exclude: /node_modules/, // default
-        sourceMap: true,
-        minify: process.env.NODE_ENV === 'production',
-        tsconfig: path.resolve(
-          path.dirname(pluginPackageJsonPath),
-          './tsconfig.json'
-        ),
-      }),
-      styles(),
-      url(),
-      json(),
-      ...(Array.isArray(config.rollupPlugins) ? config.rollupPlugins : []),
-      resolve({ browser: true }),
-      commonjs(),
-      replaceId(),
-    ],
+    plugins,
     external: (id: string) => {
       // console.log('id', id);
 
