@@ -56,3 +56,26 @@ Used to create plugins
 Default: `[]`
 
 An array of `rollup` plugins for adding custom `rollup` plugins
+
+### buildRollupPlugins
+
+Default: `undefined`
+
+A Function of `rollup` plugin, like `rollupPlugins` but have full control.
+
+Should return a list for rollup plugins.
+
+For example:
+```js
+const vuePlugin = require('rollup-plugin-vue');
+
+module.exports = {
+  buildRollupPlugins: (plugins) => [
+    vuePlugin({
+      css: true,
+      compileTemplate: true,
+    }),
+    ...plugins,
+  ],
+};
+```
