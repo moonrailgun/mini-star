@@ -57,3 +57,26 @@ sidebar_position: 3
 默认值: `[]`
 
 一个`rollup`插件数组，用于添加自定义的`rollup`插件
+
+### buildRollupPlugins
+
+默认值: `undefined`
+
+一个用于构建`rollup`插件列表的函数，类似于`rollupPlugins`但是对于插件列表拥有完整控制权
+
+应当返回一个插件列表数组
+
+示例代码:
+```js
+const vuePlugin = require('rollup-plugin-vue');
+
+module.exports = {
+  buildRollupPlugins: (plugins) => [
+    vuePlugin({
+      css: true,
+      compileTemplate: true,
+    }),
+    ...plugins,
+  ],
+};
+```
