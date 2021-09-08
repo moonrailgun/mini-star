@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "slidev --open",
-    "build": "slidev build",
+    "build": "slidev build --base /speech/intro/",
     "export": "slidev export"
   },
   "dependencies": {
