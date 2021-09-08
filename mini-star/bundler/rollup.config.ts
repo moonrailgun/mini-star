@@ -32,21 +32,10 @@ export function buildRollupOptions(
   const name = packageConfig.name.replace(`@${scope}/`, '');
   const main = packageConfig.main;
 
-  const rootConfig =
-    JSON.parse(
-      fs.readFileSync(path.resolve(process.cwd(), 'package.json'), 'utf8')
-    ) || {};
-
   const deps = [
-    ...Object.keys(rootConfig.dependencies || {}),
-    ...Object.keys(rootConfig.devDependencies || {}),
-    ...Object.keys(rootConfig.peerDependencies || {}),
-    // ...Object.keys(packageConfig.dependencies || {}),
-    // ...Object.keys(packageConfig.devDependencies || {}),
-    // ...Object.keys(packageConfig.peerDependencies || {}),
     ...getPluginDirs().map((x) => `@plugins/${x}`),
     '@capital/', // builtin dependencies prefix
-    ...config.extraDeps,
+    ...config.externalDeps,
   ];
 
   function getFileNameWithoutExt(filepath: string) {
