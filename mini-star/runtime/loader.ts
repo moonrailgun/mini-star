@@ -1,4 +1,4 @@
-import { applyConfig, getPluginList } from './config';
+import { applyConfig, callPluginLoadError, getPluginList } from './config';
 import { requirePlugin } from './helper';
 import type { GlobalConfig, Module, Plugin } from './types';
 
@@ -6,7 +6,7 @@ import type { GlobalConfig, Module, Plugin } from './types';
  * Load All Plugin from List
  */
 export function loadPluginList(plugins: Plugin[]): Promise<Module[]> {
-  const allpromise = plugins.map((plugin) => {
+  const allPromise = plugins.map((plugin) => {
     // Append Plugins
     getPluginList()[plugin.name] = {
       ...plugin,
@@ -21,10 +21,18 @@ export function loadPluginList(plugins: Plugin[]): Promise<Module[]> {
         console.debug(`[${pluginName}] Load Completed!`);
         resolve(pluginModule);
       });
+    }).catch((error) => {
+      callPluginLoadError({
+        pluginName,
+        detail: new Error(error),
+      });
+      return null;
     });
   });
 
-  return Promise.all(allpromise);
+  return Promise.all(allPromise).then(
+    (modules) => modules.filter(Boolean) as Module[]
+  );
 }
 
 /**
@@ -42,7 +50,7 @@ interface MiniStarOptions extends GlobalConfig {
  * Init Mini Star
  */
 export async function initMiniStar(options: MiniStarOptions) {
-  applyConfig(options);
+  applyConfig(options); // Apply init runtime config
 
   if (Array.isArray(options.plugins) && options.plugins.length > 0) {
     await loadPluginList(options.plugins);

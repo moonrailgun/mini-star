@@ -9,6 +9,10 @@ initMiniStar({
       url: '/plugins/test/index.js',
     },
   ],
-}).then(() => {
-  console.log('Plugin Load Success');
-});
+})
+  .then(() => {
+    console.log('Plugin Load Success, Load App');
+  })
+  .catch(() => {
+    console.log('Plugin Load Failed');
+  });

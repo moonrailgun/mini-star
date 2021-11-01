@@ -2,6 +2,7 @@ import {
   getPluginList,
   getFallbackPluginUrl,
   getPluginUrlPrefix,
+  callModuleLoadError,
 } from './config';
 import type { Module, ModuleLoader } from './types';
 import {
@@ -10,6 +11,7 @@ import {
   isPluginModuleEntry,
   processModulePath,
   setModuleLoaderLoaded,
+  setModuleLoaderLoadError,
 } from './utils';
 
 interface LoadedModuleMap {
@@ -212,12 +214,14 @@ export function definePlugin(
         if (exportsIndex === -1 && ret) {
           exports = ret;
         }
-      } catch (e) {
-        console.error('Plugin init failed:', name, e);
-        return Promise.reject(e);
+        setModuleLoaderLoaded(loadedModules[name], exports);
+      } catch (e: any) {
+        callModuleLoadError({
+          moduleName: name,
+          detail: new Error(e),
+        });
+        setModuleLoaderLoadError(loadedModules[name]);
       }
-
-      setModuleLoaderLoaded(loadedModules[name], exports);
     });
   };
 }

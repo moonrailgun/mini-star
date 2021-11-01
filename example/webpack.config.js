@@ -3,7 +3,7 @@ const path = require('path');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   entry: './capital/src/index.ts',
   devtool: 'cheap-module-source-map', // for debug
   output: {

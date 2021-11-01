@@ -30,6 +30,17 @@ export function setModuleLoaderLoaded(
   moduleLoader.resolves = [];
 }
 
+export function setModuleLoaderLoadError(moduleLoader: ModuleLoader) {
+  moduleLoader.status = 'error';
+  moduleLoader.ins = null;
+  if (Array.isArray(moduleLoader.resolves)) {
+    moduleLoader.resolves.forEach((_resolve) => {
+      _resolve(null);
+    });
+  }
+  moduleLoader.resolves = [];
+}
+
 function trimDotOfPath(parent: string, self: string) {
   if (!self.startsWith('.')) {
     return self;
