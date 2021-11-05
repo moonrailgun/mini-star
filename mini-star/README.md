@@ -2,6 +2,8 @@
 
 A bundler and loader which help your project pluginize.
 
+[Offical Document](https://ministar.moonrailgun.com/)
+
 ## Feature
 
 - Support `Typescript`
@@ -14,3 +16,10 @@ A bundler and loader which help your project pluginize.
 - Dynamic load async module, and reduce your project.
 - Allow to share dependencies with all plugin.
 - Modernize and typescript.
+
+
+### Deploy to npm
+
+```bash
+npm run release # not yarn
+```
