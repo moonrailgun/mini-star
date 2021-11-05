@@ -14,7 +14,7 @@ import {
   setModuleLoaderLoadError,
 } from './utils';
 
-interface LoadedModuleMap {
+export interface LoadedModuleMap {
   [key: string]: ModuleLoader;
 }
 
@@ -24,6 +24,13 @@ if (process.env.NODE_ENV === 'development') {
   // Just for debug.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (window as any).loadedModules = loadedModules;
+}
+
+/**
+ * get all loaded modules
+ */
+export function getLoadedModules(): LoadedModuleMap {
+  return loadedModules;
 }
 
 function generateModuleName(scriptUrl: string): string {
