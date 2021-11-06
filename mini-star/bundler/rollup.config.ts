@@ -33,11 +33,11 @@ export function buildRollupOptions(
   const name = packageConfig.name.replace(`@${scope}/`, '');
   const main = packageConfig.main;
 
-  const deps = [
+  const prefixDepsMatch = [
     ...getPluginDirs().map((x) => `@plugins/${x}`),
     '@capital/', // builtin dependencies prefix
-    ...config.externalDeps,
   ];
+  const exactDepsMatch = [...config.externalDeps];
 
   let plugins: RollupPlugin[] = [
     esbuild({
@@ -115,10 +115,14 @@ export function buildRollupOptions(
     },
     plugins,
     external: (id: string) => {
-      // console.log('id', id);
+      for (const dep of prefixDepsMatch) {
+        if (id.startsWith(dep)) {
+          return true;
+        }
+      }
 
-      for (const x of deps) {
-        if (id.startsWith(x)) {
+      for (const dep of exactDepsMatch) {
+        if (id === dep) {
           return true;
         }
       }
