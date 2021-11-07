@@ -6,6 +6,7 @@
     "plugins/*",
     "mini-star",
     "example/*",
+    "test/bundler/*",
     "test/plugins/*"
   ]
 }
