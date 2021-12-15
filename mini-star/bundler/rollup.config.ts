@@ -9,6 +9,7 @@ import styles from 'rollup-plugin-styles';
 import url from '@rollup/plugin-url';
 import esbuild from 'rollup-plugin-esbuild';
 import json from '@rollup/plugin-json';
+import { CustomPluginContext } from './types';
 
 // https://github.com/rollup/rollup/blob/master/docs/999-big-list-of-options.md
 
@@ -39,6 +40,17 @@ export function buildRollupOptions(
   ];
   const exactDepsMatch = [...config.externalDeps];
 
+  const customPluginContext: CustomPluginContext = {
+    pluginName: name,
+  };
+
+  let customRollupPlugins: RollupPlugin[] = [];
+  if (Array.isArray(config.rollupPlugins)) {
+    customRollupPlugins = config.rollupPlugins;
+  } else if (typeof config.rollupPlugins === 'function') {
+    customRollupPlugins = config.rollupPlugins(customPluginContext);
+  }
+
   let plugins: RollupPlugin[] = [
     esbuild({
       // https://www.npmjs.com/package/rollup-plugin-esbuild
@@ -55,13 +67,13 @@ export function buildRollupOptions(
     styles(),
     url(),
     json(),
-    ...(Array.isArray(config.rollupPlugins) ? config.rollupPlugins : []),
+    ...customRollupPlugins,
     resolve({ browser: true }),
     commonjs(),
     replaceId(),
   ];
   if (typeof config.buildRollupPlugins === 'function') {
-    plugins = config.buildRollupPlugins(plugins);
+    plugins = config.buildRollupPlugins(plugins, customPluginContext);
   }
 
   function getFileNameWithoutExt(filepath: string) {
