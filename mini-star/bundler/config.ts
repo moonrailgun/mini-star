@@ -1,6 +1,7 @@
 import path from 'path';
 import { cosmiconfigSync } from 'cosmiconfig';
 import { Plugin as RollupPlugin } from 'rollup';
+import { CustomPluginContext } from './types';
 const explorer = cosmiconfigSync('ministar');
 
 interface MiniStarConfig {
@@ -10,8 +11,13 @@ interface MiniStarConfig {
   externalDeps: string[];
   author?: string;
   license?: string;
-  rollupPlugins: [];
-  buildRollupPlugins?: (defaultPlugins: RollupPlugin[]) => RollupPlugin[];
+  rollupPlugins:
+    | RollupPlugin[]
+    | ((context: CustomPluginContext) => RollupPlugin[]);
+  buildRollupPlugins?: (
+    defaultPlugins: RollupPlugin[],
+    context: CustomPluginContext
+  ) => RollupPlugin[];
 }
 
 const defaultConfig: MiniStarConfig = {
