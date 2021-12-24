@@ -10,7 +10,8 @@ declare global {
     ) => void;
     requirePlugin: (
       deps: string[],
-      callback: (...args: Module[]) => void
+      onSuccess: (...args: Module[]) => void,
+      onError: (err: Error) => void
     ) => void;
   }
 }

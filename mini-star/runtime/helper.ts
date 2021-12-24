@@ -3,6 +3,7 @@ import {
   getFallbackPluginUrl,
   getPluginUrlPrefix,
   callModuleLoadError,
+  callPluginLoadError,
 } from './config';
 import type { Module, ModuleLoader } from './types';
 import {
@@ -147,7 +148,8 @@ async function loadDependency(dep: string): Promise<any> {
 
 export function requirePlugin(
   deps: string[],
-  callback: (...args: Module[]) => void
+  onSuccess: (...args: Module[]) => void,
+  onError: (err: Error) => void
 ): void {
   const allPromises = Promise.all(
     deps
@@ -158,10 +160,10 @@ export function requirePlugin(
   );
 
   allPromises
-    .then((args) => callback(...args))
+    .then((args) => onSuccess(...args))
     .catch((err) => {
       console.error(err);
-      callback();
+      onError(err);
     });
 }
 
@@ -194,42 +196,56 @@ export function definePlugin(
       (x) => x !== 'require' && x !== 'exports'
     );
 
-    requirePlugin(requiredDeps, (...callbackArgs) => {
-      let exports: any = {};
+    requirePlugin(
+      requiredDeps,
+      (...callbackArgs) => {
+        let exports: any = {};
 
-      // Replace require
-      if (requireIndex !== -1) {
-        (callbackArgs as any).splice(
-          requireIndex,
-          0,
-          (deps: string[], callback: (...args: any[]) => void) => {
-            const convertedDeps = deps.map((module) =>
-              processModulePath(name, module)
-            );
-            requirePlugin(convertedDeps, callback);
-          }
-        );
-      }
-
-      // Replace exports
-      if (exportsIndex !== -1) {
-        callbackArgs.splice(exportsIndex, 0, exports);
-      }
-
-      try {
-        const ret = callback(...callbackArgs);
-        if (exportsIndex === -1 && ret) {
-          exports = ret;
+        // Replace require
+        if (requireIndex !== -1) {
+          (callbackArgs as any).splice(
+            requireIndex,
+            0,
+            (deps: string[], callback: (...args: any[]) => void) => {
+              const convertedDeps = deps.map((module) =>
+                processModulePath(name, module)
+              );
+              requirePlugin(convertedDeps, callback, (err) =>
+                callModuleLoadError({
+                  moduleName,
+                  detail: err,
+                })
+              );
+            }
+          );
         }
-        setModuleLoaderLoaded(loadedModules[name], exports);
-      } catch (e: any) {
+
+        // Replace exports
+        if (exportsIndex !== -1) {
+          callbackArgs.splice(exportsIndex, 0, exports);
+        }
+
+        try {
+          const ret = callback(...callbackArgs);
+          if (exportsIndex === -1 && ret) {
+            exports = ret;
+          }
+          setModuleLoaderLoaded(loadedModules[name], exports);
+        } catch (e: any) {
+          callModuleLoadError({
+            moduleName: name,
+            detail: new Error(e),
+          });
+          setModuleLoaderLoadError(loadedModules[name]);
+        }
+      },
+      (err) => {
         callModuleLoadError({
-          moduleName: name,
-          detail: new Error(e),
+          moduleName,
+          detail: err,
         });
-        setModuleLoaderLoadError(loadedModules[name]);
       }
-    });
+    );
   };
 }
 

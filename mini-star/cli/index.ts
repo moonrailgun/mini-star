@@ -4,7 +4,7 @@ import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
 import { createPluginTemplate } from './create-plugin';
 import { buildPlugin, watchPlugin } from '../bundler/bundle';
-import { getPluginDirContainer, getPluginDirs } from '../bundler/utils';
+import { getPluginDirContainerPath, getPluginDirs } from '../bundler/utils';
 import ora from 'ora';
 import { getPluginPackagePath, getShortTimeStr } from './utils';
 
@@ -47,7 +47,7 @@ yargs(hideBin(process.argv))
       if (pluginName === 'all') {
         const allPluginDirs = getPluginDirs();
         if (allPluginDirs.length === 0) {
-          console.warn('Not found and plugin in:', getPluginDirContainer());
+          console.warn('Not found and plugin in:', getPluginDirContainerPath());
         }
 
         for (const name of getPluginDirs()) {

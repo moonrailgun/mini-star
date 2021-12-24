@@ -17,10 +17,19 @@ export function loadPluginList(plugins: Plugin[]): Promise<Module[]> {
     const pluginUrl = plugin.url;
     return new Promise<Module>((resolve) => {
       console.debug(`[${pluginName}] Start Loading...`);
-      requirePlugin([`${pluginUrl}`], (pluginModule) => {
-        console.debug(`[${pluginName}] Load Completed!`);
-        resolve(pluginModule);
-      });
+      requirePlugin(
+        [`${pluginUrl}`],
+        (pluginModule: Module) => {
+          console.debug(`[${pluginName}] Load Completed!`);
+          resolve(pluginModule);
+        },
+        (err) => {
+          callPluginLoadError({
+            pluginName,
+            detail: err,
+          });
+        }
+      );
     }).catch((error) => {
       callPluginLoadError({
         pluginName,
