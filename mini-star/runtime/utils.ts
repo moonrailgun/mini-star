@@ -118,3 +118,28 @@ export function getPluginName(fullName: string): string | null {
   const [, name] = fullName.split('/');
   return name;
 }
+
+/**
+ * Check is full url
+ */
+export function isFullUrl(url: string): boolean {
+  return url.startsWith('http:') || url.startsWith('https:');
+}
+
+/**
+ * @example
+ * ('http://127.0.0.1:8080/plugins/core/index.js', '/plugins/core/foo.js') => 'http://127.0.0.1:8080/plugins/core/foo.js'
+ * ('http://127.0.0.1:8080/public/plugins/core/index.js', '/plugins/core/foo.js') => 'http://127.0.0.1:8080/public/plugins/core/foo.js'
+ * ('http://127.0.0.1:8080/public/index.js', '/plugins/core/foo.js') => '/plugins/core/foo.js'
+ */
+export function mergeUrl(baseUrl: string, appendUrl: string) {
+  const [, prefix, pluginName, ...rest] = appendUrl.split('/');
+  const matchStr = `/${prefix}/${pluginName}`;
+
+  const index = baseUrl.search(matchStr);
+  if (index === -1) {
+    return appendUrl;
+  }
+
+  return baseUrl.slice(0, index) + matchStr + '/' + rest.join('/');
+}

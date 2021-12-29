@@ -3,13 +3,14 @@ import {
   getFallbackPluginUrl,
   getPluginUrlPrefix,
   callModuleLoadError,
-  callPluginLoadError,
 } from './config';
-import type { Module, ModuleLoader } from './types';
+import type { Module, ModuleLoader, Plugin } from './types';
 import {
   createNewModuleLoader,
   getPluginName,
+  isFullUrl,
   isPluginModuleEntry,
+  mergeUrl,
   processModulePath,
   setModuleLoaderLoaded,
   setModuleLoaderLoadError,
@@ -67,6 +68,7 @@ function loadPluginByUrl(url: string): Promise<Event> {
  */
 async function loadDependency(dep: string): Promise<any> {
   const moduleName = generateModuleName(dep);
+  const pluginName = getPluginName(moduleName);
 
   if (dep.startsWith('@plugins/')) {
     dep = dep.replace('@plugins/', getPluginUrlPrefix());
@@ -100,15 +102,15 @@ async function loadDependency(dep: string): Promise<any> {
   } else {
     // Not exist
     loadedModules[moduleName] = createNewModuleLoader();
+    const pluginInfo =
+      typeof pluginName === 'string' ? getPluginList()[pluginName] : null;
 
     if (isPluginModuleEntry(moduleName)) {
-      const pluginName = getPluginName(moduleName);
-      if (pluginName === null) {
+      // Is Plugin Entry
+      if (pluginInfo === null) {
         console.error(`[${moduleName}] Looks like not a valid module name.`);
         return;
       }
-
-      const pluginInfo = getPluginList()[pluginName];
 
       /**
        * Try to load plugin:
@@ -117,12 +119,19 @@ async function loadDependency(dep: string): Promise<any> {
        *  (require by other plugin but not define in main repo)
        *  get fallback plugin url with function.
        */
-      dep = pluginInfo?.url ?? getFallbackPluginUrl(pluginName);
-    } else if (!dep.endsWith('.js') && !dep.startsWith('./')) {
-      console.error(
-        `[${dep}] Looks like is builtin module, and its cannot load as remote script.`
-      );
-      return;
+      dep = pluginInfo.url ?? getFallbackPluginUrl(pluginInfo.name);
+    } else {
+      // is async module
+      if (!dep.endsWith('.js') && !dep.startsWith('./')) {
+        console.error(
+          `[${dep}] Looks like is builtin module, and its cannot load as remote script.`
+        );
+        return;
+      }
+
+      if (pluginInfo && isFullUrl(pluginInfo.url ?? '')) {
+        dep = mergeUrl(pluginInfo.url, dep);
+      }
     }
 
     return new Promise((resolve, reject) => {
