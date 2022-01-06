@@ -1,0 +1,21 @@
+{
+  "name": "example-fallback",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config ../webpack.config.js --entry ./src/index.ts --output-path ./dist",
+    "build:plugins": "ministar buildPlugin all",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "moonrailgun",
+  "license": "MIT",
+  "dependencies": {
+    "mini-star": "*"
+  },
+  "devDependencies": {
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.0"
+  }
+}

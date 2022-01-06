@@ -15,7 +15,7 @@ export function loadPluginList(plugins: Plugin[]): Promise<Module[]> {
 
     const pluginName = plugin.name;
     const pluginUrl = plugin.url;
-    return new Promise<Module>((resolve) => {
+    return new Promise<Module>((resolve, reject) => {
       console.debug(`[${pluginName}] Start Loading...`);
       requirePlugin(
         [`${pluginUrl}`],
@@ -24,10 +24,7 @@ export function loadPluginList(plugins: Plugin[]): Promise<Module[]> {
           resolve(pluginModule);
         },
         (err) => {
-          callPluginLoadError({
-            pluginName,
-            detail: err,
-          });
+          reject(err);
         }
       );
     }).catch((error) => {
