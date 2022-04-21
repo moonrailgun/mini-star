@@ -1,3 +1,7 @@
+---
+sidebar_position: 6
+---
+
 # Webpack
 
 ## 开发环境

@@ -14,8 +14,13 @@ Default support
 
 ## less
 
-Only need to install `rollup-plugin-less` in your compilation environment, `mini-star` will automatically handle different compilation types
+Only need to install `less` in your compilation environment, `mini-star` will automatically handle different compilation types
 
 ```
-npm install rollup-plugin-less
+npm install --save-dev less
 ```
+
+## vue support
+
+Please check demo:
+- [vue3](https://github.com/moonrailgun/mini-star/tree/master/example/vue3)
