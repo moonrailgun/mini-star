@@ -209,7 +209,7 @@ export function definePlugin(
 
         // Replace require
         if (requireIndex !== -1) {
-          (callbackArgs as any).splice(
+          (callbackArgs as any[]).splice(
             requireIndex,
             0,
             (deps: string[], callback: (...args: any[]) => void) => {
