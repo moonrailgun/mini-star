@@ -179,7 +179,6 @@ export function requirePlugin(
 
   allPromises
     .then((args) => {
-      console.log('args', args);
       onSuccess(...args);
     })
     .catch((err) => {
@@ -235,7 +234,7 @@ export function definePlugin(
                   const convertedDeps = deps.map((module) =>
                     processModulePath(name, module)
                   );
-                  debugger;
+
                   requirePlugin(convertedDeps, callback, (err) =>
                     callModuleLoadError({
                       moduleName,

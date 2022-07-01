@@ -22,6 +22,9 @@ appendToolButton('Load plugin: test', () => {
     url: `/plugins/test/index.js`,
   });
 });
+appendToolButton('Print loadedModules', () => {
+  console.log('loadedModules:', (window as any).__ministar_loadedModules);
+});
 appendToolButton('Refresh Page', () => {
   window.location.reload();
 });
