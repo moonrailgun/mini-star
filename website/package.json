@@ -8,7 +8,7 @@
     "start:zh": "docusaurus start -p 3400 --locale zh-Hans --no-open",
     "build:docs": "docusaurus build",
     "build:speech": "cd ./speech/intro && yarn run build && node ../../scripts/moveSpeech.js",
-    "build": "yarn run build:docs",
+    "build": "yarn run build:docs && yarn run build:speech",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
@@ -19,9 +19,9 @@
     "postinstall": "cd ./speech/intro && yarn"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.0",
-    "@docusaurus/preset-classic": "2.0.0-beta.0",
-    "@docusaurus/remark-plugin-npm2yarn": "^2.0.0-beta.0",
+    "@docusaurus/core": "2.0.0-beta.21",
+    "@docusaurus/preset-classic": "2.0.0-beta.21",
+    "@docusaurus/remark-plugin-npm2yarn": "^2.0.0-beta.21",
     "@mdx-js/react": "^1.6.21",
     "@svgr/webpack": "^5.5.0",
     "clsx": "^1.1.1",
@@ -44,7 +44,7 @@
     ]
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^2.0.0-beta.0",
+    "@docusaurus/module-type-aliases": "^2.0.0-beta.21",
     "@tsconfig/docusaurus": "^1.0.2",
     "@types/react": "^17.0.9",
     "@types/react-helmet": "^6.1.1",

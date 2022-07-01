@@ -2,8 +2,8 @@
 module.exports = {
   title: 'MiniStar',
   tagline: 'Pluginize your project',
-  url: 'https://github.com/moonrailgun/mini-star',
-  baseUrl: '/',
+  url: 'https://github.com',
+  baseUrl: '/moonrailgun/mini-star/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
