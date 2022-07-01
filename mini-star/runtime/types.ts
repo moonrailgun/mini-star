@@ -1,4 +1,9 @@
-export type ModuleStatus = 'new' | 'init' | 'loading' | 'loaded' | 'error';
+export type ModuleStatus =
+  | 'new' // when plugin dep created
+  | 'init' // when plugin load in first time
+  | 'loading' // when plugin downloaded and before run entryFn
+  | 'loaded' // when plugin run entryFn completed
+  | 'error'; // when plugin load error
 
 export interface PluginLoadError {
   pluginName: string;

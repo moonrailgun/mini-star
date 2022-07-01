@@ -70,7 +70,7 @@ function loadPluginByUrl(url: string): Promise<Event> {
 /**
  * Load Dependency Module
  */
-async function loadDependency(dep: string): Promise<any> {
+function loadDependency(dep: string): void | Promise<any> {
   const moduleName = generateModuleName(dep);
   const pluginName = getPluginName(moduleName);
 
@@ -78,32 +78,7 @@ async function loadDependency(dep: string): Promise<any> {
     dep = dep.replace('@plugins/', getPluginUrlPrefix());
   }
 
-  if (moduleName in loadedModules) {
-    const pluginModule = loadedModules[moduleName];
-
-    if (pluginModule.status === 'init') {
-      pluginModule.status = 'loading';
-      return new Promise((resolve, reject) => {
-        pluginModule.resolves.push(resolve);
-
-        if (typeof pluginModule.entryFn !== 'function') {
-          reject('Load dependencies error, this should have a valid');
-          return null;
-        }
-
-        pluginModule.entryFn();
-      });
-    } else if (
-      pluginModule.status === 'loading' ||
-      pluginModule.status === 'new'
-    ) {
-      return new Promise((resolve) => {
-        pluginModule.resolves.push(resolve);
-      });
-    } else if (pluginModule.status === 'loaded') {
-      return Promise.resolve(pluginModule.module);
-    }
-  } else {
+  if (!(moduleName in loadedModules)) {
     // Not exist
     loadedModules[moduleName] = createNewModuleLoader();
 
@@ -133,7 +108,7 @@ async function loadDependency(dep: string): Promise<any> {
       // Async module
       if (!dep.startsWith('./') && !dep.endsWith('.js')) {
         console.error(
-          `[${dep}] Looks like is built-in module, and its cannot load, please checkout your code in ${moduleName}(${pluginInfo?.url}).`
+          `[${dep}] Cannot load, please checkout your code in ${moduleName}(${pluginInfo?.url}).`
         );
         return;
       }
@@ -161,6 +136,33 @@ async function loadDependency(dep: string): Promise<any> {
           reject(err);
         });
     });
+  }
+
+  // Has been load
+  // Update plugin module status
+  const pluginModule = loadedModules[moduleName];
+
+  if (pluginModule.status === 'init') {
+    pluginModule.status = 'loading';
+    return new Promise((resolve, reject) => {
+      pluginModule.resolves.push(resolve);
+
+      if (typeof pluginModule.entryFn !== 'function') {
+        reject('Load dependencies error, this should have a valid');
+        return null;
+      }
+
+      pluginModule.entryFn();
+    });
+  } else if (
+    pluginModule.status === 'loading' ||
+    pluginModule.status === 'new'
+  ) {
+    return new Promise((resolve) => {
+      pluginModule.resolves.push(resolve);
+    });
+  } else if (pluginModule.status === 'loaded') {
+    return Promise.resolve(pluginModule.module);
   }
 }
 
