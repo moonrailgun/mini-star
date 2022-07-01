@@ -2,13 +2,13 @@
 module.exports = {
   title: 'MiniStar',
   tagline: 'Pluginize your project',
-  url: 'https://github.com',
-  baseUrl: '/moonrailgun/mini-star/',
+  url: 'https://ministar.moonrailgun.com/',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'moonrailgun', // Usually your GitHub org/user name.
+  projectName: 'mini-star', // Usually your repo name.
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'zh-Hans'],
