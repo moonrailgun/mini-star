@@ -11,6 +11,7 @@ export interface PluginModuleError {
 }
 
 export interface GlobalConfig {
+  removeScriptDomOnLoaded?: boolean;
   pluginUrlPrefix?: string;
   pluginUrlBuilder?: (pluginName: string) => string;
   onPluginLoadError?: (error: PluginLoadError) => void;

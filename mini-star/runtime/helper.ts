@@ -3,6 +3,7 @@ import {
   getFallbackPluginUrl,
   getPluginUrlPrefix,
   callModuleLoadError,
+  getRemoveScriptDomOnLoaded,
 } from './config';
 import type { Module, ModuleLoader } from './types';
 import {
@@ -54,6 +55,9 @@ function loadPluginByUrl(url: string): Promise<Event> {
     scriptDom.src = url;
     scriptDom.onload = (e) => {
       resolve(e);
+      if (getRemoveScriptDomOnLoaded()) {
+        document.body.removeChild(scriptDom);
+      }
     };
     scriptDom.onerror = (e) => {
       reject(e);
@@ -102,6 +106,7 @@ async function loadDependency(dep: string): Promise<any> {
   } else {
     // Not exist
     loadedModules[moduleName] = createNewModuleLoader();
+
     const pluginInfo =
       typeof pluginName === 'string' ? getPluginList()[pluginName] : null;
 
@@ -114,14 +119,19 @@ async function loadDependency(dep: string): Promise<any> {
 
       /**
        * Try to load plugin:
+       * - `pluginInfo` will be `object` | `undefined`
+       *  - if `undefined`, will not found plugin in `getPluginList()`
        * - Try to get plugin url in plugin list.
-       * - If url not define or this plugin is has another dependencies
-       *  call fallback plugin url with function.
+       * - If url not define or this plugin is has another dependencies will generate plugin url with function `getFallbackPluginUrl`.
        */
-      dep = pluginInfo.url ?? getFallbackPluginUrl(pluginInfo.name);
+      if (pluginInfo === undefined) {
+        dep = getFallbackPluginUrl(pluginName!); // here must be have value
+      } else {
+        dep = pluginInfo.url ?? getFallbackPluginUrl(pluginInfo.name);
+      }
     } else {
       // Async module
-      if (!dep.endsWith('.js') && !dep.startsWith('./')) {
+      if (!dep.startsWith('./') && !dep.endsWith('.js')) {
         console.error(
           `[${dep}] Looks like is built-in module, and its cannot load, please checkout your code in ${moduleName}(${pluginInfo?.url}).`
         );
@@ -184,6 +194,7 @@ export function definePlugin(
 
   if (arguments.length === 2) {
     // AMD No Deps case
+    // Should neven run into here because of
     callback = deps as any;
     deps = [];
   }

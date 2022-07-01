@@ -12,6 +12,7 @@ let _pluginUrlBuilder = (pluginName: string) =>
 let _onPluginLoadError = (error: PluginLoadError) => {
   console.error('[MiniStar] Plugin Loaded Error', error);
 };
+let _removeScriptDomOnLoaded = true;
 
 export function applyConfig(config: GlobalConfig) {
   if (typeof config.pluginUrlPrefix === 'string') {
@@ -24,6 +25,10 @@ export function applyConfig(config: GlobalConfig) {
 
   if (typeof config.onPluginLoadError === 'function') {
     _onPluginLoadError = config.onPluginLoadError;
+  }
+
+  if (typeof config.removeScriptDomOnLoaded === 'boolean') {
+    _removeScriptDomOnLoaded = config.removeScriptDomOnLoaded;
   }
 }
 
@@ -60,4 +65,8 @@ export function callModuleLoadError(error: PluginModuleError) {
  */
 export function getFallbackPluginUrl(pluginName: string): string {
   return _pluginUrlBuilder(pluginName);
+}
+
+export function getRemoveScriptDomOnLoaded(): boolean {
+  return _removeScriptDomOnLoaded;
 }
