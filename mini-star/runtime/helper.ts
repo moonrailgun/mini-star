@@ -271,7 +271,7 @@ export function definePlugin(
  */
 export function regDependency(name: string, fn: () => Promise<Module>) {
   if (loadedModules[name]) {
-    console.warn('[ministar] Duplicate registration:', name);
+    console.warn('[ministar] Duplicate registry:', name);
   }
   loadedModules[name] = {
     status: 'init',
@@ -279,12 +279,7 @@ export function regDependency(name: string, fn: () => Promise<Module>) {
     resolves: [],
     entryFn: () => {
       fn().then((module) => {
-        loadedModules[name].status = 'loaded';
-        loadedModules[name].module = module;
-        loadedModules[name].resolves.forEach((resolve) => {
-          resolve(module);
-        });
-        loadedModules[name].resolves = [];
+        setModuleLoaderLoaded(loadedModules[name], module);
       });
     },
   };
