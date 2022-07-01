@@ -8,7 +8,7 @@
     "start:zh": "docusaurus start -p 3400 --locale zh-Hans --no-open",
     "build:docs": "docusaurus build",
     "build:speech": "cd ./speech/intro && yarn run build && node ../../scripts/moveSpeech.js",
-    "build": "yarn run build:docs && yarn run build:speech",
+    "build": "yarn run build:speech && yarn run build:docs",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
