@@ -39,8 +39,6 @@ export interface Module {
 }
 
 export interface ModuleLoader {
-  status: ModuleStatus;
-  entryFn: (() => void) | null;
+  _promise: () => Promise<Module>;
   module: Module | null;
-  resolves: ((value: Module | null) => void)[];
 }

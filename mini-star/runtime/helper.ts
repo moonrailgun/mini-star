@@ -7,14 +7,11 @@ import {
 } from './config';
 import type { Module, ModuleLoader } from './types';
 import {
-  createNewModuleLoader,
   getPluginName,
   isFullUrl,
   isPluginModuleEntry,
   mergeUrl,
   processModulePath,
-  setModuleLoaderLoaded,
-  setModuleLoaderLoadError,
 } from './utils';
 
 export interface LoadedModuleMap {
@@ -68,9 +65,41 @@ function loadPluginByUrl(url: string): Promise<Event> {
 }
 
 /**
+ * Because we cannot get result of script eval result
+ * so we use this to try to make sure script eval.
+ *
+ * TODO: use sandbox and eval to remove its logic
+ */
+const interval = [0, 10, 100];
+function tryToGetModule(moduleName: string): Promise<boolean> {
+  let i = 0;
+
+  function loop(): Promise<void> {
+    if (i > interval.length) {
+      return Promise.reject();
+    }
+
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        if (loadedModules[moduleName]) {
+          return resolve();
+        } else {
+          i++;
+          return loop();
+        }
+      }, interval[i]);
+    });
+  }
+
+  return loop()
+    .then(() => true)
+    .catch(() => false);
+}
+
+/**
  * Load Dependency Module
  */
-function loadDependency(dep: string): void | Promise<any> {
+async function loadDependency(dep: string): Promise<Module> {
   const moduleName = generateModuleName(dep);
   const pluginName = getPluginName(moduleName);
 
@@ -80,7 +109,7 @@ function loadDependency(dep: string): void | Promise<any> {
 
   if (!(moduleName in loadedModules)) {
     // Not exist
-    loadedModules[moduleName] = createNewModuleLoader();
+    // loadedModules[moduleName] = createNewModuleLoader();
 
     const pluginInfo =
       typeof pluginName === 'string' ? getPluginList()[pluginName] : null;
@@ -88,8 +117,7 @@ function loadDependency(dep: string): void | Promise<any> {
     if (isPluginModuleEntry(moduleName)) {
       // Is Plugin Entry
       if (pluginInfo === null) {
-        console.error(`[${moduleName}] Looks like not a valid module name.`);
-        return;
+        throw new Error(`[${moduleName}] Looks like not a valid module name.`);
       }
 
       /**
@@ -107,10 +135,9 @@ function loadDependency(dep: string): void | Promise<any> {
     } else {
       // Async module
       if (!dep.startsWith('./') && !dep.endsWith('.js')) {
-        console.error(
+        throw new Error(
           `[${dep}] Cannot load, please checkout your code in ${moduleName}(${pluginInfo?.url}).`
         );
-        return;
       }
 
       if (pluginInfo && isFullUrl(pluginInfo.url ?? '')) {
@@ -118,52 +145,23 @@ function loadDependency(dep: string): void | Promise<any> {
       }
     }
 
-    return new Promise((resolve, reject) => {
-      loadPluginByUrl(dep)
-        .then(() => {
-          const pluginModule = loadedModules[moduleName];
-          pluginModule.status = 'loading';
+    await loadPluginByUrl(dep);
 
-          if (typeof pluginModule.entryFn !== 'function') {
-            pluginModule.resolves.push(resolve);
-            setModuleLoaderLoaded(pluginModule, null);
-            return;
-          }
-          pluginModule.resolves.push(resolve);
-          pluginModule.entryFn();
-        })
-        .catch((err) => {
-          reject(err);
-        });
+    return new Promise<Module>((resolve, reject) => {
+      tryToGetModule(moduleName).then((has) => {
+        if (!has) {
+          reject(new Error(`Cannot load script: ${moduleName}`));
+          return;
+        } else {
+          resolve(loadedModules[moduleName]._promise());
+        }
+      });
     });
   }
 
-  // Has been load
-  // Update plugin module status
+  // defined
   const pluginModule = loadedModules[moduleName];
-
-  if (pluginModule.status === 'init') {
-    pluginModule.status = 'loading';
-    return new Promise((resolve, reject) => {
-      pluginModule.resolves.push(resolve);
-
-      if (typeof pluginModule.entryFn !== 'function') {
-        reject('Load dependencies error, this should have a valid');
-        return null;
-      }
-
-      pluginModule.entryFn();
-    });
-  } else if (
-    pluginModule.status === 'loading' ||
-    pluginModule.status === 'new'
-  ) {
-    return new Promise((resolve) => {
-      pluginModule.resolves.push(resolve);
-    });
-  } else if (pluginModule.status === 'loaded') {
-    return Promise.resolve(pluginModule.module);
-  }
+  return pluginModule._promise();
 }
 
 export function requirePlugin(
@@ -180,7 +178,10 @@ export function requirePlugin(
   );
 
   allPromises
-    .then((args) => onSuccess(...args))
+    .then((args) => {
+      console.log('args', args);
+      onSuccess(...args);
+    })
     .catch((err) => {
       console.error(err);
       onError(err);
@@ -201,71 +202,85 @@ export function definePlugin(
     deps = [];
   }
 
-  if (!loadedModules[moduleName]) {
-    loadedModules[moduleName] = createNewModuleLoader();
+  if (loadedModules[moduleName]) {
+    console.warn(`${moduleName} has been loaded.`);
   }
-  loadedModules[moduleName].status = 'init';
-  loadedModules[moduleName].entryFn = () => {
-    const convertedDeps = deps.map((module) => processModulePath(name, module));
 
-    const requireIndex = deps.findIndex((x) => x === 'require');
-    const exportsIndex = deps.findIndex((x) => x === 'exports');
+  loadedModules[moduleName] = {
+    module: null,
+    _promise: () =>
+      new Promise<Module>((resolve) => {
+        const convertedDeps = deps.map((module) =>
+          processModulePath(name, module)
+        );
 
-    const requiredDeps = convertedDeps.filter(
-      (x) => x !== 'require' && x !== 'exports'
-    );
+        const requireIndex = deps.findIndex((x) => x === 'require');
+        const exportsIndex = deps.findIndex((x) => x === 'exports');
 
-    requirePlugin(
-      requiredDeps,
-      (...callbackArgs) => {
-        let exports: Record<string, any> = {};
+        const requiredDeps = convertedDeps.filter(
+          (x) => x !== 'require' && x !== 'exports'
+        );
 
-        // Replace require
-        if (requireIndex !== -1) {
-          (callbackArgs as any[]).splice(
-            requireIndex,
-            0,
-            (deps: string[], callback: (...args: any[]) => void) => {
-              const convertedDeps = deps.map((module) =>
-                processModulePath(name, module)
-              );
-              requirePlugin(convertedDeps, callback, (err) =>
-                callModuleLoadError({
-                  moduleName,
-                  detail: err,
-                })
+        requirePlugin(
+          requiredDeps,
+          (...callbackArgs) => {
+            let exports: Record<string, any> = {};
+
+            // Replace require
+            if (requireIndex !== -1) {
+              (callbackArgs as any[]).splice(
+                requireIndex,
+                0,
+                (deps: string[], callback: (...args: any[]) => void) => {
+                  const convertedDeps = deps.map((module) =>
+                    processModulePath(name, module)
+                  );
+                  debugger;
+                  requirePlugin(convertedDeps, callback, (err) =>
+                    callModuleLoadError({
+                      moduleName,
+                      detail: err,
+                    })
+                  );
+                }
               );
             }
-          );
-        }
 
-        // Replace exports
-        if (exportsIndex !== -1) {
-          callbackArgs.splice(exportsIndex, 0, exports);
-        }
+            // Replace exports
+            if (exportsIndex !== -1) {
+              callbackArgs.splice(exportsIndex, 0, exports);
+            }
 
-        try {
-          const ret = callback(...callbackArgs);
-          if (exportsIndex === -1 && ret) {
-            exports = ret;
+            try {
+              const ret = callback(...callbackArgs);
+              if (exportsIndex === -1 && ret) {
+                exports = ret;
+              }
+
+              resolve(exports);
+              // setModuleLoaderLoaded(loadedModules[name], exports);
+            } catch (e: any) {
+              callModuleLoadError({
+                moduleName: name,
+                detail: new Error(e),
+              });
+              // setModuleLoaderLoadError(loadedModules[name]);
+            }
+          },
+          (err) => {
+            callModuleLoadError({
+              moduleName,
+              detail: err,
+            });
           }
-          setModuleLoaderLoaded(loadedModules[name], exports);
-        } catch (e: any) {
-          callModuleLoadError({
-            moduleName: name,
-            detail: new Error(e),
-          });
-          setModuleLoaderLoadError(loadedModules[name]);
-        }
-      },
-      (err) => {
-        callModuleLoadError({
-          moduleName,
-          detail: err,
-        });
-      }
-    );
+        );
+      }).then((exportedModule) => {
+        loadedModules[moduleName].module = exportedModule;
+        return exportedModule;
+      }),
   };
+
+  return loadedModules[moduleName]._promise();
 }
 
 /**
@@ -276,14 +291,12 @@ export function regDependency(name: string, fn: () => Promise<Module>) {
     console.warn('[ministar] Duplicate registry:', name);
   }
   loadedModules[name] = {
-    status: 'init',
     module: null,
-    resolves: [],
-    entryFn: () => {
-      fn().then((module) => {
-        setModuleLoaderLoaded(loadedModules[name], module);
-      });
-    },
+    _promise: () =>
+      fn().then((exportedModule) => {
+        loadedModules[name].module = exportedModule;
+        return exportedModule;
+      }),
   };
 }
 
