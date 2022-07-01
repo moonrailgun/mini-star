@@ -4,7 +4,7 @@ import {
   getPluginUrlPrefix,
   callModuleLoadError,
 } from './config';
-import type { Module, ModuleLoader, Plugin } from './types';
+import type { Module, ModuleLoader } from './types';
 import {
   createNewModuleLoader,
   getPluginName,
@@ -25,7 +25,7 @@ const loadedModules: LoadedModuleMap = {};
 if (process.env.NODE_ENV === 'development') {
   // Just for debug.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (window as any).loadedModules = loadedModules;
+  (window as any).__ministar_loadedModules = loadedModules;
 }
 
 /**
@@ -83,7 +83,7 @@ async function loadDependency(dep: string): Promise<any> {
         pluginModule.resolves.push(resolve);
 
         if (typeof pluginModule.entryFn !== 'function') {
-          reject('Load dependencies error, this should have a valid ');
+          reject('Load dependencies error, this should have a valid');
           return null;
         }
 
@@ -97,7 +97,7 @@ async function loadDependency(dep: string): Promise<any> {
         pluginModule.resolves.push(resolve);
       });
     } else if (pluginModule.status === 'loaded') {
-      return Promise.resolve(pluginModule.ins);
+      return Promise.resolve(pluginModule.module);
     }
   } else {
     // Not exist
@@ -114,17 +114,16 @@ async function loadDependency(dep: string): Promise<any> {
 
       /**
        * Try to load plugin:
-       * 1. try to get plugin url in plugin list.
-       * 2. if url not define or this plugin is implicit dependency
-       *  (require by other plugin but not define in main repo)
-       *  get fallback plugin url with function.
+       * - Try to get plugin url in plugin list.
+       * - If url not define or this plugin is has another dependencies
+       *  call fallback plugin url with function.
        */
       dep = pluginInfo.url ?? getFallbackPluginUrl(pluginInfo.name);
     } else {
-      // is async module
+      // Async module
       if (!dep.endsWith('.js') && !dep.startsWith('./')) {
         console.error(
-          `[${dep}] Looks like is builtin module, and its cannot load as remote script.`
+          `[${dep}] Looks like is built-in module, and its cannot load, please checkout your code in ${moduleName}(${pluginInfo?.url}).`
         );
         return;
       }
@@ -190,9 +189,7 @@ export function definePlugin(
   }
 
   if (!loadedModules[moduleName]) {
-    loadedModules[moduleName] = {
-      resolves: [],
-    } as any;
+    loadedModules[moduleName] = createNewModuleLoader();
   }
   loadedModules[moduleName].status = 'init';
   loadedModules[moduleName].entryFn = () => {
@@ -208,7 +205,7 @@ export function definePlugin(
     requirePlugin(
       requiredDeps,
       (...callbackArgs) => {
-        let exports: any = {};
+        let exports: Record<string, any> = {};
 
         // Replace require
         if (requireIndex !== -1) {
@@ -263,16 +260,16 @@ export function definePlugin(
  */
 export function regDependency(name: string, fn: () => Promise<Module>) {
   if (loadedModules[name]) {
-    console.warn('[ministar] dup reg', name);
+    console.warn('[ministar] Duplicate registration:', name);
   }
   loadedModules[name] = {
     status: 'init',
-    ins: null,
+    module: null,
     resolves: [],
     entryFn: () => {
       fn().then((module) => {
         loadedModules[name].status = 'loaded';
-        loadedModules[name].ins = module;
+        loadedModules[name].module = module;
         loadedModules[name].resolves.forEach((resolve) => {
           resolve(module);
         });

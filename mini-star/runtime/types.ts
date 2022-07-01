@@ -35,6 +35,6 @@ export interface Module {
 export interface ModuleLoader {
   status: ModuleStatus;
   entryFn: (() => void) | null;
-  ins: Module | null;
+  module: Module | null;
   resolves: ((value: Module | null) => void)[];
 }

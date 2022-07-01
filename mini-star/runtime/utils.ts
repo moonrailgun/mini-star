@@ -9,7 +9,7 @@ export function createNewModuleLoader(): ModuleLoader {
     resolves: [],
     status: 'new',
     entryFn: null,
-    ins: null,
+    module: null,
   };
 }
 
@@ -21,7 +21,7 @@ export function setModuleLoaderLoaded(
   moduleExport: Module | null
 ) {
   moduleLoader.status = 'loaded';
-  moduleLoader.ins = moduleExport;
+  moduleLoader.module = moduleExport;
   if (Array.isArray(moduleLoader.resolves)) {
     moduleLoader.resolves.forEach((_resolve) => {
       _resolve(moduleExport);
@@ -32,7 +32,7 @@ export function setModuleLoaderLoaded(
 
 export function setModuleLoaderLoadError(moduleLoader: ModuleLoader) {
   moduleLoader.status = 'error';
-  moduleLoader.ins = null;
+  moduleLoader.module = null;
   if (Array.isArray(moduleLoader.resolves)) {
     moduleLoader.resolves.forEach((_resolve) => {
       _resolve(null);
