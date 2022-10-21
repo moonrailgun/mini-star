@@ -1,0 +1,4 @@
+packages:
+  - 'mini-star'
+  - 'example/**'
+  - 'test/plugins/*'
