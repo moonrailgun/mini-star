@@ -1,14 +1,13 @@
 {
   "name": "mini-star",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "",
   "main": "./lib/runtime/index.js",
   "scripts": {
     "build": "rimraf ./lib/**/*.d.ts && tsc",
     "crlf": "npx crlf --set=LF ./lib/**/*.js",
-    "prepublish": "yarn build && yarn crlf",
-    "release": "yarn publish --patch",
-    "release:minor": "yarn publish --minor",
+    "prepare": "pnpm build && pnpm crlf",
+    "release": "npm publish --registry https://registry.npmjs.com/",
     "test": "jest"
   },
   "bin": {
