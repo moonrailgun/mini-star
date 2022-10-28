@@ -96,6 +96,8 @@ function tryToGetModule(moduleName: string): Promise<boolean> {
     .catch(() => false);
 }
 
+const loadingDependency = new Map<string, Promise<Module>>();
+
 /**
  * Load Dependency Module
  */
@@ -107,10 +109,10 @@ async function loadDependency(dep: string): Promise<Module> {
     dep = dep.replace('@plugins/', getPluginUrlPrefix());
   }
 
-  if (!(moduleName in loadedModules)) {
-    // Not exist
-    // loadedModules[moduleName] = createNewModuleLoader();
-
+  /**
+   * Load script with dom
+   */
+  async function loadDependencyScript() {
     const pluginInfo =
       typeof pluginName === 'string' ? getPluginList()[pluginName] : null;
 
@@ -159,6 +161,21 @@ async function loadDependency(dep: string): Promise<Module> {
     });
   }
 
+  if (loadingDependency.has(moduleName)) {
+    // Is Loading
+    return loadingDependency.get(moduleName) as Promise<Module>;
+  }
+
+  if (!(moduleName in loadedModules)) {
+    // Not load
+    const p = loadDependencyScript();
+    loadingDependency.set(moduleName, p);
+    return p.then((res) => {
+      loadingDependency.delete(moduleName);
+      return res;
+    });
+  }
+
   // defined
   const pluginModule = loadedModules[moduleName];
   return pluginModule._promise;
@@ -202,7 +219,7 @@ export function definePlugin(
   }
 
   if (loadedModules[moduleName]) {
-    console.warn(`${moduleName} has been loaded. Skip`);
+    console.warn(`${moduleName} has been loaded. Skipped!`);
     return;
   }
 
