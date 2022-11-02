@@ -70,22 +70,24 @@ function loadPluginByUrl(url: string): Promise<Event> {
  *
  * TODO: use sandbox and eval to remove its logic
  */
-const interval = [0, 10, 100];
+const interval = [0, 10, 100, 200, 500, 1000, 2000];
 function tryToGetModule(moduleName: string): Promise<boolean> {
   let i = 0;
 
   function loop(): Promise<void> {
     if (i > interval.length) {
+      // Always can not get module
+      console.error(`Eval Timeout, moduleName: [${moduleName}]`);
       return Promise.reject();
     }
 
     return new Promise<void>((resolve) => {
       setTimeout(() => {
         if (loadedModules[moduleName]) {
-          return resolve();
+          resolve();
         } else {
           i++;
-          return loop();
+          resolve(loop());
         }
       }, interval[i]);
     });
@@ -150,14 +152,18 @@ async function loadDependency(dep: string): Promise<Module> {
     await loadPluginByUrl(dep);
 
     return new Promise<Module>((resolve, reject) => {
-      tryToGetModule(moduleName).then((has) => {
-        if (!has) {
-          reject(new Error(`Cannot load script: ${moduleName}`));
-          return;
-        } else {
-          resolve(loadedModules[moduleName]._promise);
-        }
-      });
+      tryToGetModule(moduleName)
+        .then((has) => {
+          if (!has) {
+            reject(new Error(`Cannot load script: ${moduleName}`));
+            return;
+          } else {
+            resolve(loadedModules[moduleName]._promise);
+          }
+        })
+        .catch((e) => {
+          reject(e);
+        });
     });
   }
 
