@@ -1,4 +1,5 @@
 packages:
   - 'mini-star'
   - 'example/**'
+  - 'playground'
   - 'test/plugins/*'

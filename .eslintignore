@@ -1,1 +1,4 @@
 *.js
+
+# playground 先不走eslint
+playground/
