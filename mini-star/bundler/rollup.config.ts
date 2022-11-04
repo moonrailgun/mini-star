@@ -1,7 +1,6 @@
 import path from 'path';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-import fs from 'fs';
 import { config } from './config';
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup';
 import { getPluginDirs } from './utils';
@@ -15,22 +14,17 @@ import { CustomPluginContext } from './types';
 
 type RequiredPick<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
 
+export type PluginContext = {
+  pluginPackageJsonPath: string;
+  packageConfig: any;
+};
+
 export function buildRollupOptions(
-  pluginPackageJsonPath: string
+  context: PluginContext
 ): RequiredPick<RollupOptions, 'input' | 'output' | 'plugins' | 'external'> {
-  let packageConfig: any = {};
-  try {
-    packageConfig =
-      JSON.parse(fs.readFileSync(pluginPackageJsonPath, 'utf8')) || {};
-  } catch (err) {
-    throw new Error(`Read [${pluginPackageJsonPath}] fail: ${String(err)}`);
-  }
+  const { pluginPackageJsonPath, packageConfig } = context;
+
   const scope = config.scope;
-
-  if (!('name' in packageConfig) || !('main' in packageConfig)) {
-    throw new Error(`[${pluginPackageJsonPath}] require field: name, main`);
-  }
-
   const name = packageConfig.name.replace(`@${scope}/`, '');
   const main = packageConfig.main;
 

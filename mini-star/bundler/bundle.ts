@@ -1,8 +1,9 @@
 import { rollup, RollupWatcher, watch } from 'rollup';
-import { buildRollupOptions } from './rollup.config';
+import { buildRollupOptions, PluginContext } from './rollup.config';
+import fs from 'fs';
 
 export async function buildPlugin(pluginPackageJsonPath: string) {
-  const options = buildRollupOptions(pluginPackageJsonPath);
+  const options = buildRollupOptions(readPackageJSON(pluginPackageJsonPath));
   // Create a bundle
   const bundle = await rollup(options);
 
@@ -17,9 +18,31 @@ export async function buildPlugin(pluginPackageJsonPath: string) {
 }
 
 export function watchPlugin(pluginPackageJsonPath: string): RollupWatcher {
-  const options = buildRollupOptions(pluginPackageJsonPath);
+  const options = buildRollupOptions(readPackageJSON(pluginPackageJsonPath));
 
   const watcher = watch(options);
 
   return watcher;
+}
+
+/**
+ * Read package json
+ */
+function readPackageJSON(pluginPackageJsonPath: string): PluginContext {
+  let packageConfig: any = {};
+  try {
+    packageConfig =
+      JSON.parse(fs.readFileSync(pluginPackageJsonPath, 'utf8')) || {};
+  } catch (err) {
+    throw new Error(`Read [${pluginPackageJsonPath}] fail: ${String(err)}`);
+  }
+
+  if (!('name' in packageConfig) || !('main' in packageConfig)) {
+    throw new Error(`[${pluginPackageJsonPath}] require field: name, main`);
+  }
+
+  return {
+    pluginPackageJsonPath,
+    packageConfig,
+  };
 }
