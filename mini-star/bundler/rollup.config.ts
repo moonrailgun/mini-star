@@ -1,13 +1,13 @@
 import path from 'path';
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
+// import resolve from '@rollup/plugin-node-resolve';
+// import commonjs from '@rollup/plugin-commonjs';
 import { config } from './config';
-import { RollupOptions, Plugin as RollupPlugin } from 'rollup';
+import type { RollupOptions, Plugin as RollupPlugin } from 'rollup';
 import { getPluginDirs } from './utils';
-import styles from 'rollup-plugin-styles';
-import url from '@rollup/plugin-url';
-import esbuild from 'rollup-plugin-esbuild';
-import json from '@rollup/plugin-json';
+// import styles from 'rollup-plugin-styles';
+// import url from '@rollup/plugin-url';
+// import esbuild from 'rollup-plugin-esbuild';
+// import json from '@rollup/plugin-json';
 import { CustomPluginContext } from './types';
 
 // https://github.com/rollup/rollup/blob/master/docs/999-big-list-of-options.md
@@ -46,25 +46,25 @@ export function buildRollupOptions(
   }
 
   let plugins: RollupPlugin[] = [
-    esbuild({
-      // https://www.npmjs.com/package/rollup-plugin-esbuild
-      // All options are optional
-      include: /\.[jt]sx?$/, // default, inferred from `loaders` option
-      exclude: /node_modules/, // default
-      sourceMap: true,
-      minify: process.env.NODE_ENV === 'production',
-      tsconfig: path.resolve(
-        path.dirname(pluginPackageJsonPath),
-        './tsconfig.json'
-      ),
-    }),
-    styles(),
-    url(),
-    json(),
+    // esbuild({
+    //   // https://www.npmjs.com/package/rollup-plugin-esbuild
+    //   // All options are optional
+    //   include: /\.[jt]sx?$/, // default, inferred from `loaders` option
+    //   exclude: /node_modules/, // default
+    //   sourceMap: true,
+    //   minify: process.env.NODE_ENV === 'production',
+    //   tsconfig: path.resolve(
+    //     path.dirname(pluginPackageJsonPath),
+    //     './tsconfig.json'
+    //   ),
+    // }),
+    // styles(),
+    // url(),
+    // json(),
     ...customRollupPlugins,
-    resolve({ browser: true }),
-    commonjs(),
-    replaceId(),
+    // resolve({ browser: true }),
+    // commonjs(),
+    // replaceId(),
   ];
   if (typeof config.buildRollupPlugins === 'function') {
     plugins = config.buildRollupPlugins(plugins, customPluginContext);

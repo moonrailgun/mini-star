@@ -155,9 +155,11 @@ importers:
 
   mini-star:
     specifiers:
+      '@rollup/browser': ^3.2.5
       '@rollup/plugin-commonjs': ^19.0.0
       '@rollup/plugin-json': ^4.1.0
       '@rollup/plugin-node-resolve': ^13.0.0
+      '@rollup/plugin-typescript': ^9.0.2
       '@rollup/plugin-url': ^6.0.0
       '@types/fs-extra': ^9.0.11
       '@types/inquirer': ^8.2.1
@@ -174,6 +176,7 @@ importers:
       rollup-plugin-esbuild: ^4.5.0
       rollup-plugin-styles: ^3.14.1
       ts-jest: ^26.5.4
+      tslib: ^2.4.1
       typescript: ^4.2.4
       yargs: ^16.2.0
     dependencies:
@@ -192,12 +195,15 @@ importers:
       rollup-plugin-styles: 3.14.1_rollup@2.79.1
       yargs: 16.2.0
     devDependencies:
+      '@rollup/browser': 3.2.5
+      '@rollup/plugin-typescript': 9.0.2_ee2lsxs7bbggrcawnn34dqpc4e
       '@types/fs-extra': 9.0.13
       '@types/inquirer': 8.2.4
       '@types/jest': 26.0.24
       '@types/yargs': 16.0.4
       jest: 26.6.3
       ts-jest: 26.5.6_we2p4sglclq5bmc4orivof3sv4
+      tslib: 2.4.1
       typescript: 4.8.4
 
   playground:
@@ -1191,7 +1197,6 @@ packages:
 
   /@rollup/browser/3.2.5:
     resolution: {integrity: sha512-/p2c4tCSJG07qxhIpGXHr5M+90pfJafWhO/Ad60eIVt2vud5JGKcI/1mB40Gd3OXZIbdFfgC5qRWPyHhAvqgWQ==}
-    dev: false
 
   /@rollup/plugin-commonjs/19.0.2_rollup@2.79.1:
     resolution: {integrity: sha512-gBjarfqlC7qs0AutpRW/hrFNm+cd2/QKxhwyFa+srbg1oX7rDsEU3l+W7LAUhsAp9mPJMAkXDhLbQaVwEaE8bA==}
@@ -1233,6 +1238,26 @@ packages:
       rollup: 2.79.1
     dev: false
 
+  /@rollup/plugin-typescript/9.0.2_ee2lsxs7bbggrcawnn34dqpc4e:
+    resolution: {integrity: sha512-/sS93vmHUMjzDUsl5scNQr1mUlNE1QjBBvOhmRwJCH8k2RRhDIm3c977B3wdu3t3Ap17W6dDeXP3hj1P1Un1bA==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^2.14.0||^3.0.0
+      tslib: '*'
+      typescript: '>=3.7.0'
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+      tslib:
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': 5.0.2_rollup@2.79.1
+      resolve: 1.22.1
+      rollup: 2.79.1
+      tslib: 2.4.1
+      typescript: 4.8.4
+    dev: true
+
   /@rollup/plugin-url/6.1.0_rollup@2.79.1:
     resolution: {integrity: sha512-FJNWBnBB7nLzbcaGmu1no+U/LlRR67TtgfRFP+VEKSrWlDTE6n9jMns/N4Q/VL6l4x6kTHQX4HQfwTcldaAfHQ==}
     engines: {node: '>=10.0.0'}
@@ -1264,6 +1289,21 @@ packages:
       estree-walker: 2.0.2
       picomatch: 2.3.1
     dev: false
+
+  /@rollup/pluginutils/5.0.2_rollup@2.79.1:
+    resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      '@types/estree': 1.0.0
+      estree-walker: 2.0.2
+      picomatch: 2.3.1
+      rollup: 2.79.1
+    dev: true
 
   /@sinonjs/commons/1.8.3:
     resolution: {integrity: sha512-xkNcLAn/wZaX14RPlwizcKicDk9G3F8m2nU3L7Ukm5zBgTwiT0wsoFAHx9Jq56fJA1z/7uKGtCRu16sOUCLIHQ==}
@@ -1341,7 +1381,6 @@ packages:
 
   /@types/estree/1.0.0:
     resolution: {integrity: sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==}
-    dev: false
 
   /@types/fs-extra/9.0.13:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
@@ -8349,7 +8388,7 @@ packages:
       resolve: 1.22.1
       rollup: 2.79.1
       source-map: 0.7.4
-      tslib: 2.4.0
+      tslib: 2.4.1
     dev: false
 
   /rollup-plugin-vue/6.0.0_@vue+compiler-sfc@3.2.41:
@@ -8404,7 +8443,7 @@ packages:
   /rxjs/7.5.7:
     resolution: {integrity: sha512-z9MzKh/UcOqB3i20H6rtrlaE/CgjLOvheWK/9ILrbhROGTweAi1BaFsTT9FbwZi5Trr1qNRs+MXkhmR06awzQA==}
     dependencies:
-      tslib: 2.4.0
+      tslib: 2.4.1
 
   /safe-buffer/5.1.2:
     resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
@@ -9343,7 +9382,7 @@ packages:
       bs-logger: 0.2.6
       buffer-from: 1.1.2
       fast-json-stable-stringify: 2.1.0
-      jest: 26.6.3_ts-node@9.1.1
+      jest: 26.6.3
       jest-util: 26.6.2
       json5: 2.2.1
       lodash: 4.17.21
@@ -9392,6 +9431,10 @@ packages:
 
   /tslib/2.4.0:
     resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
+    dev: true
+
+  /tslib/2.4.1:
+    resolution: {integrity: sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==}
 
   /tsutils/3.21.0_typescript@4.8.4:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
