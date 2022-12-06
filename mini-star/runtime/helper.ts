@@ -306,7 +306,8 @@ export function definePlugin(
 }
 
 /**
- * Register Dependency from capital
+ * Register Dependency from node_module.
+ * make sure declare it in `externalDeps`
  */
 export function regDependency(name: string, fn: () => Promise<Module>) {
   if (loadedModules[name]) {
@@ -323,7 +324,7 @@ export function regDependency(name: string, fn: () => Promise<Module>) {
 
 /**
  * Register Shared Module from capital.
- * Its will auto try to add @capital before module name.
+ * Its will auto try to add @capital before module name(if you not declare it).
  */
 export function regSharedModule(name: string, fn: () => Promise<Module>) {
   if (
