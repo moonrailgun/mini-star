@@ -87,9 +87,9 @@ export async function createPluginTemplate() {
       path.resolve(pluginDir, pluginName, 'tsconfig.json'),
       JSON.stringify(
         {
+          extends: '../../tsconfig.json',
           compilerOptions: {
             rootDir: './src',
-            baseUrl: './src',
           },
         },
         null,
