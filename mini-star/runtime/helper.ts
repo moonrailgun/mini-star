@@ -46,6 +46,10 @@ function generateModuleName(scriptUrl: string): string {
   }
 }
 
+/**
+ * load plugin script with origin script
+ * its will not cors problem(rather than fetch and eval, but cannot include sandbox or other post process)
+ */
 function loadPluginByUrl(url: string): Promise<Event> {
   return new Promise((resolve, reject) => {
     const scriptDom = document.createElement('script');
