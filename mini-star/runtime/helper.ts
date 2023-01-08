@@ -74,7 +74,7 @@ function loadPluginByUrl(url: string): Promise<Event> {
  *
  * TODO: use sandbox and eval to remove its logic
  */
-const interval = [0, 10, 100, 200, 500, 1000, 2000];
+const interval = [0, 10, 100, 200, 500]; // eval js is every fast. and should be get status on first
 function tryToGetModule(moduleName: string): Promise<boolean> {
   let i = 0;
 
@@ -235,7 +235,7 @@ export function definePlugin(
 
   loadedModules[moduleName] = {
     module: null,
-    _promise: new Promise<Module>((resolve) => {
+    _promise: new Promise<Module>((resolve, reject) => {
       const convertedDeps = deps.map((module) =>
         processModulePath(name, module)
       );
@@ -286,18 +286,22 @@ export function definePlugin(
             resolve(exports);
             // setModuleLoaderLoaded(loadedModules[name], exports);
           } catch (e: any) {
+            // Run script error
             callModuleLoadError({
               moduleName: name,
               detail: new Error(e),
             });
+            reject(e);
             // setModuleLoaderLoadError(loadedModules[name]);
           }
         },
         (err) => {
+          // Load dependency error
           callModuleLoadError({
             moduleName,
             detail: err,
           });
+          reject(err);
         }
       );
     }).then((exportedModule) => {
