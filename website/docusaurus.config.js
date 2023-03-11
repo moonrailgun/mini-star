@@ -127,4 +127,12 @@ module.exports = {
       },
     ],
   ],
+  scripts: [
+    {
+      src: 'https://umami.moonrailgun.com/umami.js',
+      async: true,
+      defer: true,
+      'data-website-id': 'a14bc2b9-45b2-40ce-a94f-35d72778984c',
+    },
+  ],
 };
