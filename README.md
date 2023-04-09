@@ -45,3 +45,9 @@ The core goal of the microkernel is the same as that of the micro front end. It 
 - Packing based on `Rollup`, fast!
 - Born for the modern front end. In the past, we exposed methods through windows, now all our code needs to be compiled into modules, and exposure is also through modules
 - Topology relies on sorting to prevent timing problems
+
+## Who is using MiniStar
+
+- [tailchat](https://github.com/msgbyte/tailchat)
+- [TRPGEngine](https://github.com/TRPGEngine/Client)
+- [codeck](https://github.com/moonrailgun/codeck)
