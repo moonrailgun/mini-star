@@ -23,6 +23,8 @@ export interface GlobalConfig {
   removeScriptDomOnLoaded?: boolean;
   /**
    * plugin url prefix, will replace `@plugin/xxx` to `${pluginUrlPrefix}/xxx`
+   *
+   * @deprecated
    */
   pluginUrlPrefix?: string;
   /**

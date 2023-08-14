@@ -28,21 +28,13 @@ myAlert('Test Alert');
 
 ## 自定义插件的地址自动补全逻辑
 
-使用 `pluginUrlPrefix` 或者 `pluginUrlBuilder` 在运行时中进行自定义配置
+使用 `pluginUrlBuilder` 在运行时中进行自定义配置
 
 ```typescript
 import { initMiniStar } from 'mini-star';
 
 initMiniStar({
-  pluginUrlPrefix: '/path/to/pluginDir'
-})
-```
-
-```typescript
-import { initMiniStar } from 'mini-star';
-
-initMiniStar({
-  pluginUrlBuilder: (pluginName: string) => '/path/to/pluginDir'
+  pluginUrlBuilder: (pluginName: string) => '/path/to/pluginDir' // 示例: (pluginName) => `http://localhost:3000/plugins/${pluginName}/index.js`
 })
 ```
 

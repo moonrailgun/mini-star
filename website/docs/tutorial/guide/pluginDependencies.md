@@ -28,21 +28,13 @@ myAlert('Test Alert');
 
 ## Custom plugin address auto-completion logic
 
-Custom configuration at runtime using `pluginUrlPrefix` or `pluginUrlBuilder`
+Custom configuration at runtime using `pluginUrlBuilder`
 
 ```typescript
 import { initMiniStar } from 'mini-star';
 
 initMiniStar({
-  pluginUrlPrefix: '/path/to/pluginDir'
-})
-```
-
-```typescript
-import { initMiniStar } from 'mini-star';
-
-initMiniStar({
-  pluginUrlBuilder: (pluginName: string) => '/path/to/pluginDir'
+  pluginUrlBuilder: (pluginName: string) => '/path/to/pluginDir' // for example: (pluginName) => `http://localhost:3000/plugins/${pluginName}/index.js`
 })
 ```
 
