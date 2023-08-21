@@ -7,7 +7,7 @@ sidebar_position: 2
 We can quickly create a new plugin via `cli`.
 
 ```bash
-npx ministar createPlugin
+npx mini-star createPlugin
 ```
 
 `mini-star` will ask some questions through an interactive terminal program to finally create a plugin.
@@ -37,9 +37,9 @@ In order for the plugin to be loaded correctly, don't forget to use ministar to 
 You can also modify the output by modifying [outDir](../guide/ministarrc#outdir) in the configuration file.
 
 ```bash
-npx ministar buildPlugin test
+npx mini-star buildPlugin test
 
 # or
 
-npx ministar buildPlugin all
+npx mini-star buildPlugin all
 ```
