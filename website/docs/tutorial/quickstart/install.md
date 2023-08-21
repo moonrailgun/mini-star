@@ -15,7 +15,7 @@ mini-star consists of three parts: `runtime`, `bundler` and `cli`
 Let's check if the `cli` of `mini-star` is working properly.
 
 ```bash
-npx ministar --help
+npx mini-star --help
 ```
 
 Let us quickly go to [Next Step](./createPlugin).

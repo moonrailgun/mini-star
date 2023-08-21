@@ -7,7 +7,7 @@ sidebar_position: 2
 我们可以通过`cli`快速创建一个新的插件。
 
 ```bash
-npx ministar createPlugin
+npx mini-star createPlugin
 ```
 
 `mini-star` 会通过一个交互式终端程序询问一些问题, 以最后创建一个插件。
@@ -37,9 +37,9 @@ npx ministar createPlugin
 你也可以通过修改配置文件的 [outDir](../guide/ministarrc#outdir) 来修改输出。
 
 ```bash
-npx ministar buildPlugin test
+npx mini-star buildPlugin test
 
 # or
 
-npx ministar buildPlugin all
+npx mini-star buildPlugin all
 ```
