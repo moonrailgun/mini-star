@@ -9,6 +9,11 @@ interface MiniStarConfig {
   pluginRoot: string;
   outDir: string;
   externalDeps: string[];
+  /**
+   * Generate Sourcemap
+   * @default true
+   */
+  sourceMap?: boolean;
   author?: string;
   license?: string;
   rollupPlugins:

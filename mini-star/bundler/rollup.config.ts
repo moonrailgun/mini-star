@@ -51,7 +51,7 @@ export function buildRollupOptions(
       // All options are optional
       include: /\.[jt]sx?$/, // default, inferred from `loaders` option
       exclude: /node_modules/, // default
-      sourceMap: true,
+      sourceMap: config.sourceMap ?? true, // default is true
       minify: process.env.NODE_ENV === 'production',
       tsconfig: path.resolve(
         path.dirname(pluginPackageJsonPath),

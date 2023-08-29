@@ -40,6 +40,12 @@ sidebar_position: 4
 
 外部依赖, 在这个数组中出现的值将不会被打包工具打包进去。
 
+### sourceMap
+
+默认值: `true`
+
+是否生成sourceMap。默认为 `true`
+
 ### author
 
 默认值: `undefined`

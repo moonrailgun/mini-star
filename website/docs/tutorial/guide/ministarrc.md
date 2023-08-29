@@ -39,6 +39,12 @@ Default: `[]`
 
 External dependencies, the values appearing in this array will not be packaged by the packaging tool.
 
+### sourceMap
+
+Default: `true`
+
+Whether to generate sourceMap. Default is `true`
+
 ### author
 
 Default: `undefined`
