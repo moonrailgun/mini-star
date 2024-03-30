@@ -27,6 +27,7 @@ export function buildRollupOptions(
   const scope = config.scope;
   const name = packageConfig.name.replace(`@${scope}/`, '');
   const main = packageConfig.main;
+  const sourceMap = config.sourceMap ?? true;
 
   const prefixDepsMatch = [
     ...getPluginDirs().map((x) => `@plugins/${x}`),
@@ -51,7 +52,7 @@ export function buildRollupOptions(
       // All options are optional
       include: /\.[jt]sx?$/, // default, inferred from `loaders` option
       exclude: /node_modules/, // default
-      sourceMap: config.sourceMap ?? true, // default is true
+      sourceMap: sourceMap, // default is true
       minify: process.env.NODE_ENV === 'production',
       tsconfig: path.resolve(
         path.dirname(pluginPackageJsonPath),
@@ -117,7 +118,7 @@ export function buildRollupOptions(
         basePath: `@plugins/${name}`,
         define: 'definePlugin',
       },
-      sourcemap: true,
+      sourcemap: sourceMap,
     },
     plugins,
     external: (id: string) => {

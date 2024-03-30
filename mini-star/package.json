@@ -1,9 +1,10 @@
 {
   "name": "mini-star",
-  "version": "2.1.6",
+  "version": "2.1.8",
   "description": "",
   "main": "./lib/runtime/index.js",
   "scripts": {
+    "dev": "tsc -p ./tsconfig.build.json --watch",
     "build": "rimraf ./lib/**/*.d.ts && tsc -p ./tsconfig.build.json",
     "build:browser": "rollup --config rollup.browser.ts --configPlugin typescript",
     "crlf": "npx crlf --set=LF ./lib/**/*.js",
